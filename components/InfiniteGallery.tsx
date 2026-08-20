@@ -72,7 +72,7 @@ const images = [
   },
   {
     src: "/image/matrimonio-giardino.png",
-    alt: "Matrimonio nel giardino di Villa San Carlo",
+    alt: "Ricevimento nel giardino di Villa San Carlo",
   },
   {
     src: "/image/final-cta.jpg",
@@ -97,13 +97,13 @@ export default function InfiniteGallery() {
 
   const touchStartX = useRef<number | null>(null);
 
-  const showPrevious = () => {
+  const previousImage = () => {
     setActiveIndex((current) =>
       current === 0 ? images.length - 1 : current - 1
     );
   };
 
-  const showNext = () => {
+  const nextImage = () => {
     setActiveIndex((current) =>
       current === images.length - 1 ? 0 : current + 1
     );
@@ -116,7 +116,11 @@ export default function InfiniteGallery() {
   useEffect(() => {
     if (!lightboxOpen) return;
 
-    const handleKeyboard = (event: KeyboardEvent) => {
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setLightboxOpen(false);
       }
@@ -134,13 +138,11 @@ export default function InfiniteGallery() {
       }
     };
 
-    document.body.style.overflow = "hidden";
-
-    window.addEventListener("keydown", handleKeyboard);
+    window.addEventListener("keydown", handleKeydown);
 
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyboard);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeydown);
     };
   }, [lightboxOpen]);
 
@@ -171,9 +173,30 @@ export default function InfiniteGallery() {
 
     if (!originalItems.length) return;
 
+    /* MOVIMENTO COME PRIMA VERSIONE */
+
+    const wheelSpeed = 0.32;
+    const dragSpeed = 0.7;
+
+    const gridOverscan = 1;
+
+    const startOffsetY = 0.22;
+
+    const positionLerp = 0.07;
+
+    const xToYInfluence = 0.08;
+
+    const columnSpeedPattern = [1, 0.96, 1.03];
+
+    const minCardScale = 0.92;
+
+    const scaleLerp = 0.06;
+
     let observer: Observer | undefined;
 
     let cards: CardPosition[] = [];
+
+    let cardElements: HTMLElement[] = [];
 
     const size = {
       itemW: 0,
@@ -182,72 +205,96 @@ export default function InfiniteGallery() {
       totalH: 0,
     };
 
-    const pos = {
+    const position = {
       startX: 0,
       startY: 0,
+
       x: 0,
       y: 0,
+
       targetX: 0,
       targetY: 0,
     };
 
-    let resizeTimer: ReturnType<typeof setTimeout>;
-
-    let isMobile = window.innerWidth < 768;
-
-    /*
-      MOBILE:
-      - meno celle
-      - niente scale
-      - niente wheel interception
-      - movimento più diretto
-    */
-
-    const getSettings = () => {
-      isMobile = window.innerWidth < 768;
-
-      return {
-        dragSpeed: isMobile ? 0.44 : 0.68,
-        wheelSpeed: isMobile ? 0 : 0.22,
-        overscan: isMobile ? 0 : 1,
-        offsetY: isMobile ? 0.12 : 0.2,
-        lerp: isMobile ? 0.14 : 0.075,
-        xToY: isMobile ? 0.015 : 0.055,
-        columnSpeeds: isMobile
-          ? [1, 0.98]
-          : [1, 0.97, 1.02],
-      };
+    const scale = {
+      current: 1,
+      target: 1,
     };
 
-    let settings = getSettings();
+    let resizeTimer: ReturnType<typeof setTimeout>;
 
-    const wrap = (value: number, max: number) => {
+    let scaleTimer: ReturnType<typeof setTimeout>;
+
+    const wrapValue = (value: number, max: number) => {
       if (!max) return 0;
 
       return ((value % max) + max) % max;
     };
 
+    const createColumnSpeeds = (columns: number) => {
+      return Array.from(
+        { length: columns },
+        (_, index) =>
+          columnSpeedPattern[index % columnSpeedPattern.length]
+      );
+    };
+
+    const createIndexes = (columns: number, rows: number) => {
+      const total = originalItems.length;
+
+      const indexes: number[][] = Array.from(
+        { length: rows },
+        () => []
+      );
+
+      let imageIndex = 0;
+
+      for (let row = 0; row < rows; row++) {
+        for (let column = 0; column < columns; column++) {
+          indexes[row][column] = imageIndex % total;
+
+          imageIndex++;
+        }
+      }
+
+      return indexes;
+    };
+
+    /* =========================================================
+       ANIMATION LOOP
+    ========================================================= */
+
     const updateGrid = () => {
-      pos.x += (pos.targetX - pos.x) * settings.lerp;
-      pos.y += (pos.targetY - pos.y) * settings.lerp;
+      position.x +=
+        (position.targetX - position.x) * positionLerp;
 
-      const offsetX = size.itemW * settings.overscan;
-      const offsetY = size.itemH * settings.overscan;
+      position.y +=
+        (position.targetY - position.y) * positionLerp;
 
-      const scrollY = pos.y - pos.startY;
+      scale.current +=
+        (scale.target - scale.current) * scaleLerp;
+
+      const offsetX = size.itemW * gridOverscan;
+
+      const offsetY = size.itemH * gridOverscan;
+
+      const scrollY =
+        position.y - position.startY;
 
       cards.forEach((card) => {
         card.xSetter(
-          wrap(
-            card.baseX + pos.x + offsetX,
+          wrapValue(
+            card.baseX +
+              position.x +
+              offsetX,
             size.totalW
           ) - offsetX
         );
 
         card.ySetter(
-          wrap(
+          wrapValue(
             card.baseY +
-              pos.startY +
+              position.startY +
               card.startY +
               scrollY * card.ySpeed +
               offsetY,
@@ -255,209 +302,275 @@ export default function InfiniteGallery() {
           ) - offsetY
         );
       });
+
+      gsap.set(cardElements, {
+        scale: scale.current,
+      });
     };
+
+    /* =========================================================
+       BUILD GRID
+    ========================================================= */
 
     const buildGrid = () => {
       observer?.kill();
 
-      gsap.ticker.remove(updateGrid);
+      clearTimeout(scaleTimer);
 
-      settings = getSettings();
+      gsap.ticker.remove(updateGrid);
 
       sourceList.innerHTML = "";
 
-      const measureItem = originalItems[0].cloneNode(true) as HTMLElement;
+      const measurementItem =
+        originalItems[0].cloneNode(true) as HTMLElement;
 
-      measureItem.style.position = "absolute";
-      measureItem.style.visibility = "hidden";
-      measureItem.style.pointerEvents = "none";
+      measurementItem.style.position = "absolute";
 
-      wrapper.appendChild(measureItem);
+      measurementItem.style.visibility = "hidden";
 
-      const rect = measureItem.getBoundingClientRect();
+      measurementItem.style.pointerEvents = "none";
+
+      wrapper.appendChild(measurementItem);
+
+      const rect =
+        measurementItem.getBoundingClientRect();
 
       size.itemW = rect.width;
       size.itemH = rect.height;
 
-      measureItem.remove();
+      measurementItem.remove();
 
       if (!size.itemW || !size.itemH) return;
 
       const columns = Math.max(
-        2,
+        1,
         Math.ceil(wrapper.clientWidth / size.itemW) +
-          settings.overscan * 2
+          gridOverscan * 2
       );
 
-      /*
-        Su mobile teniamo poche righe.
-        È una delle ottimizzazioni più importanti.
-      */
-      const rows = isMobile
-        ? 4
-        : Math.max(
-            4,
-            Math.ceil(wrapper.clientHeight / size.itemH) +
-              settings.overscan * 2
-          );
+      const rows = Math.max(
+        Math.ceil(wrapper.clientHeight / size.itemH) +
+          gridOverscan * 2,
 
-      const centerColumn = Math.floor(columns / 2);
-      const centerRow = Math.floor(rows / 2);
+        Math.ceil(originalItems.length / columns)
+      );
 
-      size.totalW = columns * size.itemW;
-      size.totalH = rows * size.itemH;
+      const indexes =
+        createIndexes(columns, rows);
 
-      collection.style.width = `${size.totalW}px`;
-      collection.style.height = `${size.totalH}px`;
+      const columnSpeeds =
+        createColumnSpeeds(columns);
+
+      const centerColumn =
+        Math.floor(columns / 2);
+
+      const centerRow =
+        Math.floor(rows / 2);
+
+      size.totalW =
+        columns * size.itemW;
+
+      size.totalH =
+        rows * size.itemH;
+
+      collection.style.width =
+        `${size.totalW}px`;
+
+      collection.style.height =
+        `${size.totalH}px`;
 
       cards = [];
 
-      const fragment = document.createDocumentFragment();
+      cardElements = [];
 
-      let imageIndex = 0;
+      const fragment =
+        document.createDocumentFragment();
 
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
-          const sourceIndex = imageIndex % originalItems.length;
+          const sourceIndex =
+            indexes[row][column];
 
-          const item = originalItems[sourceIndex].cloneNode(
-            true
-          ) as HTMLElement;
+          const item =
+            originalItems[sourceIndex].cloneNode(
+              true
+            ) as HTMLElement;
+
+          const card =
+            item.querySelector<HTMLElement>(
+              "[data-gallery-card]"
+            );
 
           /*
-            IMPORTANTISSIMO:
-            cloneNode non copia gli event listener React.
+            cloneNode non copia gli onClick React.
 
-            Salviamo quindi l'indice nel DOM e poi
-            intercettiamo il click dal wrapper.
+            Quindi mettiamo l'indice direttamente
+            sull'elemento clonato.
           */
-          const button = item.querySelector<HTMLElement>(
-            "[data-gallery-card]"
-          );
 
-          if (button) {
-            button.dataset.galleryOpen = String(sourceIndex);
+          if (card) {
+            card.dataset.galleryOpen =
+              String(sourceIndex);
+
+            cardElements.push(card);
           }
 
           cards.push({
-            baseX: column * size.itemW,
+            baseX:
+              column * size.itemW,
 
-            baseY: row * size.itemH,
+            baseY:
+              row * size.itemH,
 
             startY:
               (column - centerColumn) *
               size.itemH *
-              settings.offsetY,
+              startOffsetY,
 
             ySpeed:
-              settings.columnSpeeds[
-                column % settings.columnSpeeds.length
-              ],
+              columnSpeeds[column],
 
-            xSetter: gsap.quickSetter(item, "x", "px"),
+            xSetter:
+              gsap.quickSetter(
+                item,
+                "x",
+                "px"
+              ),
 
-            ySetter: gsap.quickSetter(item, "y", "px"),
+            ySetter:
+              gsap.quickSetter(
+                item,
+                "y",
+                "px"
+              ),
           });
 
-          /*
-            Le copie extra non devono essere
-            lette dagli screen reader.
-          */
-          if (imageIndex >= originalItems.length) {
-            item.setAttribute("aria-hidden", "true");
+          if (
+            cards.length >
+            originalItems.length
+          ) {
+            item.setAttribute(
+              "aria-hidden",
+              "true"
+            );
           }
 
           fragment.appendChild(item);
-
-          imageIndex++;
         }
       }
 
       sourceList.appendChild(fragment);
 
-      pos.startX =
+      gsap.set(cardElements, {
+        force3D: true,
+      });
+
+      position.startX =
         wrapper.clientWidth * 0.5 -
         centerColumn * size.itemW -
         size.itemW * 0.5;
 
-      pos.startY =
+      position.startY =
         wrapper.clientHeight * 0.5 -
         centerRow * size.itemH -
         size.itemH * 0.5;
 
-      pos.x = pos.startX;
-      pos.y = pos.startY;
+      position.x =
+        position.startX;
 
-      pos.targetX = pos.x;
-      pos.targetY = pos.y;
+      position.y =
+        position.startY;
+
+      position.targetX =
+        position.x;
+
+      position.targetY =
+        position.y;
+
+      scale.current = 1;
+
+      scale.target = 1;
 
       updateGrid();
 
       gsap.ticker.add(updateGrid);
 
+      /* =========================================================
+         OBSERVER
+      ========================================================= */
+
       observer = Observer.create({
         target: wrapper,
 
-        /*
-          MOBILE:
-          niente wheel.
-          Solo touch/pointer.
+        type: "wheel,touch,pointer",
 
-          DESKTOP:
-          anche wheel.
-        */
-        type: isMobile
-          ? "touch,pointer"
-          : "wheel,touch,pointer",
+        preventDefault: true,
 
-        /*
-          FONDAMENTALE:
-          FALSE.
-
-          Così la gallery NON intrappola la pagina
-          e puoi continuare a scrollare fino al footer.
-        */
-        preventDefault: false,
-
-        dragMinimum: isMobile ? 6 : 4,
+        dragMinimum: 3,
 
         onChange(self) {
-          const type = self.event?.type;
+          const isWheel =
+            self.event.type === "wheel";
 
-          const wheel = type === "wheel";
+          const speed =
+            isWheel
+              ? wheelSpeed
+              : dragSpeed;
 
-          const speed = wheel
-            ? settings.wheelSpeed
-            : settings.dragSpeed;
+          const deltaX =
+            gsap.utils.clamp(
+              -80,
+              80,
+              self.deltaX * speed
+            );
 
-          const deltaX = gsap.utils.clamp(
-            -65,
-            65,
-            self.deltaX * speed
-          );
+          const deltaY =
+            gsap.utils.clamp(
+              -80,
+              80,
+              self.deltaY * speed
+            );
 
-          const deltaY = gsap.utils.clamp(
-            -65,
-            65,
-            self.deltaY * speed
-          );
+          const moveX =
+            isWheel
+              ? -deltaX
+              : deltaX;
 
-          const moveX = wheel ? -deltaX : deltaX;
-          const moveY = wheel ? -deltaY : deltaY;
+          const moveY =
+            isWheel
+              ? -deltaY
+              : deltaY;
 
-          pos.targetX += moveX;
+          const strength =
+            gsap.utils.clamp(
+              0,
+              1,
+              Math.max(
+                Math.abs(deltaX),
+                Math.abs(deltaY)
+              ) / 80
+            );
 
-          /*
-            Su mobile diamo priorità all'orizzontale,
-            così il gesto verticale continua a scrollare
-            naturalmente la pagina.
-          */
-          if (isMobile) {
-            pos.targetY += moveY * 0.35;
-          } else {
-            pos.targetY +=
-              moveY + moveX * settings.xToY;
-          }
+          scale.target =
+            gsap.utils.interpolate(
+              1,
+              minCardScale,
+              strength
+            );
+
+          clearTimeout(scaleTimer);
+
+          scaleTimer =
+            setTimeout(() => {
+              scale.target = 1;
+            }, 120);
+
+          position.targetX +=
+            moveX;
+
+          position.targetY +=
+            moveY +
+            moveX * xToYInfluence;
         },
       });
     };
@@ -466,54 +579,67 @@ export default function InfiniteGallery() {
        CLICK DELEGATION
     ========================================================= */
 
-    let pointerStartX = 0;
-    let pointerStartY = 0;
-    let didDrag = false;
+    let startX = 0;
+    let startY = 0;
 
-    const handlePointerDown = (event: PointerEvent) => {
-      pointerStartX = event.clientX;
-      pointerStartY = event.clientY;
+    let dragging = false;
 
-      didDrag = false;
+    const handlePointerDown = (
+      event: PointerEvent
+    ) => {
+      startX = event.clientX;
+      startY = event.clientY;
+
+      dragging = false;
     };
 
-    const handlePointerMove = (event: PointerEvent) => {
-      const deltaX = Math.abs(
-        event.clientX - pointerStartX
-      );
+    const handlePointerMove = (
+      event: PointerEvent
+    ) => {
+      const x =
+        Math.abs(
+          event.clientX - startX
+        );
 
-      const deltaY = Math.abs(
-        event.clientY - pointerStartY
-      );
+      const y =
+        Math.abs(
+          event.clientY - startY
+        );
 
-      if (deltaX > 8 || deltaY > 8) {
-        didDrag = true;
+      if (x > 8 || y > 8) {
+        dragging = true;
       }
     };
 
-    const handleClick = (event: MouseEvent) => {
-      /*
-        Se l'utente stava trascinando,
-        NON apriamo la lightbox.
-      */
-      if (didDrag) {
-        didDrag = false;
+    const handleClick = (
+      event: MouseEvent
+    ) => {
+      if (dragging) {
+        dragging = false;
         return;
       }
 
-      const target = event.target as HTMLElement;
+      const target =
+        event.target as HTMLElement;
 
-      const card = target.closest<HTMLElement>(
-        "[data-gallery-open]"
-      );
+      const card =
+        target.closest<HTMLElement>(
+          "[data-gallery-open]"
+        );
 
       if (!card) return;
 
-      const index = Number(card.dataset.galleryOpen);
+      const index =
+        Number(
+          card.dataset.galleryOpen
+        );
 
-      if (Number.isNaN(index)) return;
+      if (Number.isNaN(index)) {
+        return;
+      }
 
       setActiveIndex(index);
+
       setLightboxOpen(true);
     };
 
@@ -527,24 +653,37 @@ export default function InfiniteGallery() {
       handlePointerMove
     );
 
-    wrapper.addEventListener("click", handleClick);
+    wrapper.addEventListener(
+      "click",
+      handleClick
+    );
 
     buildGrid();
+
+    /* =========================================================
+       RESIZE
+    ========================================================= */
 
     const handleResize = () => {
       clearTimeout(resizeTimer);
 
-      resizeTimer = setTimeout(() => {
-        buildGrid();
-      }, 300);
+      resizeTimer =
+        setTimeout(() => {
+          buildGrid();
+        }, 250);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
 
     return () => {
       observer?.kill();
 
       clearTimeout(resizeTimer);
+
+      clearTimeout(scaleTimer);
 
       gsap.ticker.remove(updateGrid);
 
@@ -573,7 +712,7 @@ export default function InfiniteGallery() {
   return (
     <>
       {/* =========================================================
-          GALLERY FULLSCREEN
+          GALLERY
       ========================================================= */}
 
       <div
@@ -582,117 +721,144 @@ export default function InfiniteGallery() {
           relative
           h-[calc(100svh-80px)]
           w-full
+          cursor-grab
+          touch-none
           overflow-hidden
           bg-[#F8F5F0]
-          cursor-grab
           active:cursor-grabbing
         "
       >
         <div
           data-gallery-collection
-          className="absolute inset-0"
+          className="
+            absolute
+            inset-0
+            will-change-transform
+          "
         >
           <div
             data-gallery-list
             className="absolute inset-0"
           >
-            {images.map((image, index) => (
-              <div
-                key={`${image.src}-${index}`}
-                data-gallery-item
-                className="
-                  absolute
-                  left-0
-                  top-0
-                  flex
-                  aspect-square
-                  w-[185px]
-                  items-center
-                  justify-center
-                  p-3
-
-                  sm:w-[220px]
-                  sm:p-4
-
-                  md:w-[280px]
-                  md:p-6
-
-                  lg:w-[330px]
-                  lg:p-7
-
-                  xl:w-[360px]
-                "
-                style={{
-                  willChange: "transform",
-                  backfaceVisibility: "hidden",
-                  transform: "translateZ(0)",
-                }}
-              >
-                <button
-                  type="button"
-                  data-gallery-card
-                  data-gallery-open={index}
-                  aria-label={`Apri immagine ${index + 1}`}
+            {images.map(
+              (
+                image,
+                index
+              ) => (
+                <div
+                  key={`${image.src}-${index}`}
+                  data-gallery-item
                   className="
-                    group
-                    relative
-                    h-full
-                    w-full
-                    overflow-hidden
-                    bg-[#E8DED4]
-                    shadow-[0_8px_24px_rgba(59,33,24,0.05)]
+                    absolute
+                    left-0
+                    top-0
+
+                    flex
+                    aspect-square
+                    w-[190px]
+                    items-center
+                    justify-center
+                    p-3
+
+                    sm:w-[220px]
+                    sm:p-4
+
+                    md:w-[280px]
+                    md:p-6
+
+                    lg:w-[330px]
+                    lg:p-7
+
+                    xl:w-[360px]
                   "
+                  style={{
+                    willChange:
+                      "transform",
+
+                    backfaceVisibility:
+                      "hidden",
+                  }}
                 >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    quality={70}
-                    loading={index < 6 ? "eager" : "lazy"}
-                    sizes="
-                      (max-width: 640px) 185px,
-                      (max-width: 768px) 220px,
-                      (max-width: 1024px) 280px,
-                      360px
-                    "
-                    draggable={false}
+                  <button
+                    type="button"
+                    data-gallery-card
+                    data-gallery-open={
+                      index
+                    }
+                    aria-label={`Apri immagine ${
+                      index + 1
+                    }`}
                     className="
-                      pointer-events-none
-                      select-none
-                      object-cover
-                      md:transition-transform
-                      md:duration-700
-                      md:group-hover:scale-[1.02]
-                    "
-                  />
-
-                  {/* PLUS SOLO DESKTOP */}
-                  <div
-                    className="
-                      pointer-events-none
-                      absolute
-                      bottom-4
-                      right-4
-                      hidden
-                      h-9
-                      w-9
-                      items-center
-                      justify-center
-                      bg-[#F8F5F0]/90
-                      text-[#4A281B]
-                      opacity-0
-                      transition-opacity
-                      duration-300
-                      group-hover:opacity-100
-
-                      md:flex
+                      group
+                      relative
+                      h-full
+                      w-full
+                      overflow-hidden
+                      bg-[#E8DED4]
+                      shadow-[0_8px_24px_rgba(59,33,24,0.05)]
                     "
                   >
-                    +
-                  </div>
-                </button>
-              </div>
-            ))}
+                    <Image
+                      src={
+                        image.src
+                      }
+                      alt={
+                        image.alt
+                      }
+                      fill
+                      quality={72}
+                      loading={
+                        index < 6
+                          ? "eager"
+                          : "lazy"
+                      }
+                      sizes="
+                        (max-width: 640px) 190px,
+                        (max-width: 768px) 220px,
+                        (max-width: 1024px) 280px,
+                        360px
+                      "
+                      draggable={
+                        false
+                      }
+                      className="
+                        pointer-events-none
+                        select-none
+                        object-cover
+                        transition-transform
+                        duration-700
+                        group-hover:scale-[1.025]
+                      "
+                    />
+
+                    {/* ICONA + DESKTOP */}
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        bottom-4
+                        right-4
+                        hidden
+                        h-9
+                        w-9
+                        items-center
+                        justify-center
+                        bg-[#F8F5F0]/90
+                        text-[#4A281B]
+                        opacity-0
+                        transition-opacity
+                        duration-300
+                        group-hover:opacity-100
+
+                        md:flex
+                      "
+                    >
+                      +
+                    </div>
+                  </button>
+                </div>
+              )
+            )}
           </div>
         </div>
 
@@ -728,7 +894,9 @@ export default function InfiniteGallery() {
           role="dialog"
           aria-modal="true"
           aria-label="Gallery Villa San Carlo"
-          onClick={() => setLightboxOpen(false)}
+          onClick={() =>
+            setLightboxOpen(false)
+          }
           className="
             fixed
             inset-0
@@ -745,7 +913,7 @@ export default function InfiniteGallery() {
             md:py-8
           "
         >
-          {/* HEADER LIGHTBOX */}
+          {/* TOPBAR */}
           <div className="absolute left-5 right-5 top-5 z-30 flex items-center justify-between md:left-10 md:right-10 md:top-8">
             <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/65">
               Villa San Carlo
@@ -753,9 +921,13 @@ export default function InfiniteGallery() {
 
             <div className="flex items-center gap-5">
               <span className="text-[10px] tracking-[0.16em] text-white/60">
-                {String(activeIndex + 1).padStart(2, "0")}
+                {String(
+                  activeIndex + 1
+                ).padStart(2, "0")}
                 {" / "}
-                {String(images.length).padStart(2, "0")}
+                {String(
+                  images.length
+                ).padStart(2, "0")}
               </span>
 
               <button
@@ -763,6 +935,7 @@ export default function InfiniteGallery() {
                 aria-label="Chiudi gallery"
                 onClick={(event) => {
                   event.stopPropagation();
+
                   setLightboxOpen(false);
                 }}
                 className="
@@ -787,44 +960,57 @@ export default function InfiniteGallery() {
             </div>
           </div>
 
-          {/* FOTO */}
+          {/* FOTO GRANDE */}
           <div
-            onClick={(event) => event.stopPropagation()}
-            onTouchStart={(event) => {
-              touchStartX.current =
-                event.touches[0]?.clientX ?? null;
-            }}
-            onTouchEnd={(event) => {
-              if (touchStartX.current === null) return;
-
-              const endX =
-                event.changedTouches[0]?.clientX ?? 0;
-
-              const distance =
-                endX - touchStartX.current;
-
-              if (distance > 50) {
-                showPrevious();
-              }
-
-              if (distance < -50) {
-                showNext();
-              }
-
-              touchStartX.current = null;
-            }}
             className="
               relative
-              h-[74svh]
+              h-[76svh]
               w-full
               max-w-[1300px]
 
               md:h-[82svh]
             "
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+            onTouchStart={(event) => {
+              touchStartX.current =
+                event.touches[0]?.clientX ??
+                null;
+            }}
+            onTouchEnd={(event) => {
+              if (
+                touchStartX.current === null
+              ) {
+                return;
+              }
+
+              const endX =
+                event.changedTouches[0]?.clientX ??
+                0;
+
+              const distance =
+                endX -
+                touchStartX.current;
+
+              if (distance > 50) {
+                previousImage();
+              }
+
+              if (distance < -50) {
+                nextImage();
+              }
+
+              touchStartX.current = null;
+            }}
           >
             <Image
-              src={images[activeIndex].src}
-              alt={images[activeIndex].alt}
+              src={
+                images[activeIndex].src
+              }
+              alt={
+                images[activeIndex].alt
+              }
               fill
               priority
               quality={88}
@@ -839,7 +1025,8 @@ export default function InfiniteGallery() {
             aria-label="Foto precedente"
             onClick={(event) => {
               event.stopPropagation();
-              showPrevious();
+
+              previousImage();
             }}
             className="
               absolute
@@ -854,7 +1041,7 @@ export default function InfiniteGallery() {
               justify-center
               border
               border-white/20
-              bg-[#21140F]/20
+              bg-[#21140F]/25
               text-white
               backdrop-blur-sm
 
@@ -872,7 +1059,8 @@ export default function InfiniteGallery() {
             aria-label="Foto successiva"
             onClick={(event) => {
               event.stopPropagation();
-              showNext();
+
+              nextImage();
             }}
             className="
               absolute
@@ -887,7 +1075,7 @@ export default function InfiniteGallery() {
               justify-center
               border
               border-white/20
-              bg-[#21140F]/20
+              bg-[#21140F]/25
               text-white
               backdrop-blur-sm
 
