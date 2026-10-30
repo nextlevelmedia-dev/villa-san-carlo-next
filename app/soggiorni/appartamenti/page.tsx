@@ -10,7 +10,7 @@ import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { photos } from "@/lib/images";
 import { pageMetadata, staysJsonLd, webPageJsonLd } from "@/lib/seo";
-import { apartments } from "@/lib/stays";
+import { apartmentSlides, apartments } from "@/lib/stays";
 
 const title = "Appartamenti indipendenti in provincia di Cremona";
 const description =
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: "Cosa significa che gli appartamenti sono indipendenti?",
     answer:
-      "Sono unità autonome rispetto alle camere della villa principale: offrono maggiore riservatezza e la libertà di organizzare il soggiorno secondo i propri tempi.",
+      "Sono unità autonome rispetto alle camere della villa: offrono maggiore riservatezza e la libertà di organizzare il soggiorno secondo i propri tempi.",
   },
   {
     question: "Per chi sono più adatti gli appartamenti?",
@@ -71,6 +71,7 @@ export default function AppartamentiPage() {
           </p>
         }
         photo={photos.appartamento}
+        slides={apartmentSlides()}
         actions={
           <>
             <ButtonLink href="/contatti?tipo=soggiorno&alloggio=appartamento">
@@ -86,8 +87,9 @@ export default function AppartamentiPage() {
       <EditorialSection
         tone="white"
         eyebrow="Indipendenza"
+        textFirstOnMobile
         title="La libertà di una casa, il fascino di una villa."
-        photo={photos.facciata}
+        photo={photos.corteGiardino}
       >
         <p>
           Gli appartamenti sono la scelta di chi vuole sentirsi a casa anche
@@ -152,7 +154,7 @@ export default function AppartamentiPage() {
             Preferisci dormire nella villa?
           </p>
           <h2 className="max-w-2xl text-3xl leading-[1.1] tracking-[-0.025em] text-[#3B2118] md:text-4xl">
-            Scopri le sei camere della villa principale.
+            Scopri le camere della villa.
           </h2>
           <ButtonLink href="/soggiorni/camere" variant="outline">
             Vai alle camere
@@ -170,7 +172,7 @@ export default function AppartamentiPage() {
           "Prenotazione diretta con la villa",
         ]}
         primary={{ label: "Richiedi disponibilità", href: "/contatti?tipo=soggiorno&alloggio=appartamento" }}
-        photo={photos.giardinoSera}
+        photo={photos.appartamento}
         whatsappMessage="Buongiorno, vorrei informazioni sulla disponibilità degli appartamenti a Villa San Carlo."
       />
     </>

@@ -14,7 +14,7 @@ import { rooms } from "@/lib/stays";
 
 const title = "Camere in villa storica nel Cremonese";
 const description =
-  "Sei camere nella villa principale di Villa San Carlo, dimora storica in provincia di Cremona, tra cui una camera accessibile a persone con disabilità.";
+  "Cinque camere nella villa principale di Villa San Carlo, dimora storica in provincia di Cremona, e una camera accessibile a persone con disabilità.";
 
 export const metadata: Metadata = pageMetadata({
   title,
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: "Dove si trovano le camere?",
     answer:
-      "Tutte e sei le camere si trovano nello stabile principale della villa, la parte storica della dimora.",
+      "Cinque camere si trovano nello stabile principale della villa, la parte storica della dimora. A queste si aggiunge una camera accessibile a persone con disabilità: scrivici per ricevere i dettagli.",
   },
   {
     question: "Quali informazioni servono per richiedere una camera?",
@@ -62,7 +62,7 @@ export default function CamerePage() {
           { name: "Camere", path: "/soggiorni/camere" },
         ]}
         eyebrow="Le camere della villa"
-        titleLines={["Sei camere", "nella villa", "principale."]}
+        titleLines={["Cinque camere", "nella villa principale,", "più una accessibile."]}
         intro={
           <p>
             Dormire dentro la parte storica della dimora, tra soffitti a travi
@@ -72,6 +72,9 @@ export default function CamerePage() {
           </p>
         }
         photo={photos.camera}
+        slides={rooms.flatMap((room) =>
+          room.photos.map((photo) => ({ photo, label: room.name })),
+        )}
         actions={
           <>
             <ButtonLink href="/contatti?tipo=soggiorno&alloggio=camera">
@@ -88,10 +91,11 @@ export default function CamerePage() {
         tone="white"
         eyebrow="L'atmosfera"
         title="Una notte nella casa, non accanto alla casa."
-        photo={photos.facciata}
+        photo={photos.saloneSera}
+        textFirstOnMobile
       >
         <p>
-          Le camere si trovano nello stabile principale: chi le sceglie vive
+          Cinque camere si trovano nello stabile principale: chi le sceglie vive
           la villa in prima persona, dalla quiete del mattino alle luci della
           sera.
         </p>
@@ -141,7 +145,7 @@ export default function CamerePage() {
           },
           {
             title: "Ospiti con disabilità",
-            text: "Una delle sei camere è accessibile: contattaci per conoscerne le caratteristiche nel dettaglio.",
+            text: "Oltre alle cinque camere della villa è disponibile una camera accessibile: contattaci per conoscerne le caratteristiche.",
           },
         ]}
       />
@@ -167,12 +171,12 @@ export default function CamerePage() {
         title="Richiedi disponibilità per le camere."
         text="Indicaci date, numero di ospiti ed eventuali esigenze: ti risponderemo direttamente con disponibilità e condizioni."
         benefits={[
-          "Sei camere nella villa principale",
+          "Cinque camere nella villa principale",
           "Una camera accessibile",
           "Prenotazione diretta con la villa",
         ]}
         primary={{ label: "Richiedi disponibilità", href: "/contatti?tipo=soggiorno&alloggio=camera" }}
-        photo={photos.corte}
+        photo={photos.camera1}
         whatsappMessage="Buongiorno, vorrei informazioni sulla disponibilità delle camere a Villa San Carlo."
       />
     </>

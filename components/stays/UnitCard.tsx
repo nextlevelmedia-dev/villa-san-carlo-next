@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PhotoPlaceholder from "@/components/ui/PhotoPlaceholder";
 import { reveal } from "@/lib/reveal";
-import type { StayUnit } from "@/lib/stays";
+import { unitHref, type StayUnit } from "@/lib/stays";
 
 /**
  * Scheda di una singola unità. Mostra solo i dati compilati in
@@ -22,21 +22,22 @@ export default function UnitCard({
     unit.beds,
   ].filter(Boolean) as string[];
   const kindLabel = unit.kind === "apartment" ? "Appartamento indipendente" : "Camera in villa";
+  const detailHref = unit.kind === "apartment" ? unitHref(unit) : null;
 
   return (
     <article
       id={unit.id}
       {...reveal(index % 3)}
-      className="flex scroll-mt-28 flex-col border border-[#E2D6C9] bg-[#FBF8F4]"
+      className="relative flex scroll-mt-28 flex-col border border-[#E2D6C9] bg-[#FBF8F4]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="group relative aspect-[4/3] overflow-hidden">
         {cover ? (
           <Image
             src={cover.src}
             alt={cover.alt}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover"
+            className={`object-cover ${detailHref ? "transition-transform duration-700 group-hover:scale-[1.03]" : ""}`}
           />
         ) : (
           <PhotoPlaceholder label={unit.name} className="h-full w-full border-0" />
@@ -55,7 +56,17 @@ export default function UnitCard({
         </p>
 
         <h3 className="mt-3 text-2xl leading-tight tracking-[-0.015em] text-[#3B2118]">
-          {unit.name}
+          {detailHref ? (
+            // Il link copre l'intera scheda (foto inclusa) tramite ::after
+            <Link
+              href={detailHref}
+              className="transition-opacity after:absolute after:inset-0 after:content-[''] hover:opacity-70"
+            >
+              {unit.name}
+            </Link>
+          ) : (
+            unit.name
+          )}
         </h3>
 
         {unit.description && (
@@ -97,7 +108,22 @@ export default function UnitCard({
           </ul>
         )}
 
-        <div className="mt-auto pt-7">
+        <div className="relative z-10 mt-auto flex flex-wrap gap-x-8 gap-y-2 pt-7">
+          {detailHref && (
+            <Link
+              href={detailHref}
+              className="group inline-flex min-h-11 items-center gap-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A281B] transition-opacity duration-300 hover:opacity-60"
+            >
+              Scopri l&apos;appartamento
+              <span className="sr-only"> {unit.name}</span>
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+          )}
           <Link
             href={`/contatti?tipo=soggiorno&unita=${unit.id}`}
             className="group inline-flex min-h-11 items-center gap-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A281B] transition-opacity duration-300 hover:opacity-60"

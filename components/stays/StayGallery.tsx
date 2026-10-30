@@ -25,7 +25,9 @@ export default function StayGallery({
 
         <div className="mt-14 space-y-14 lg:mt-16">
           {groups.map((group) => {
-            const slots = Math.max(3, group.photos.length);
+            // Con almeno due foto si mostrano solo quelle; altrimenti si completa a tre
+            const slots = group.photos.length >= 2 ? group.photos.length : 3;
+            const twoUp = slots === 2;
 
             return (
               <div key={group.title}>
@@ -36,7 +38,7 @@ export default function StayGallery({
                   {group.title}
                 </h3>
 
-                <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+                <ul className={`mt-6 grid gap-4 ${twoUp ? "sm:grid-cols-2" : "sm:grid-cols-3"}`}>
                   {Array.from({ length: slots }, (_, index) => {
                     const photo = group.photos[index];
 
@@ -44,14 +46,14 @@ export default function StayGallery({
                       <li
                         key={photo?.src ?? `${group.title}-${index}`}
                         {...reveal(index % 3, "image")}
-                        className="relative aspect-[4/5] overflow-hidden bg-[#E8DED4]"
+                        className={`relative overflow-hidden bg-[#E8DED4] ${twoUp ? "aspect-[4/3]" : "aspect-[4/5]"}`}
                       >
                         {photo ? (
                           <Image
                             src={photo.src}
                             alt={photo.alt}
                             fill
-                            sizes="(max-width: 640px) 100vw, 33vw"
+                            sizes={twoUp ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 100vw, 33vw"}
                             className="object-cover"
                           />
                         ) : (

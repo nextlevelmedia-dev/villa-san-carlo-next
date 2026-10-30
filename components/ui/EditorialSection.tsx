@@ -14,6 +14,7 @@ export default function EditorialSection({
   action,
   tone = "cream",
   caption,
+  textFirstOnMobile = false,
 }: {
   eyebrow: string;
   title: ReactNode;
@@ -23,6 +24,8 @@ export default function EditorialSection({
   action?: ReactNode;
   tone?: "cream" | "white";
   caption?: { eyebrow: string; text: string };
+  /** Su mobile mostra titolo e testo prima della fotografia */
+  textFirstOnMobile?: boolean;
 }) {
   return (
     <section
@@ -51,7 +54,7 @@ export default function EditorialSection({
           )}
         </div>
 
-        <div>
+        <div className={textFirstOnMobile ? "order-first lg:order-none" : ""}>
           <SectionHeading eyebrow={eyebrow} title={title} intro={children} />
 
           {action && (

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import type { StayUnit } from "@/lib/stays";
+import { unitHref, type StayUnit } from "@/lib/stays";
 
 type PageSeo = {
   title: string;
@@ -162,11 +162,11 @@ export function staysJsonLd(units: StayUnit[]) {
     containsPlace: units.map((unit) => ({
       "@type": unit.kind === "apartment" ? "Apartment" : "HotelRoom",
       name: `${unit.name} — ${site.name}`,
-      url: absoluteUrl(
-        `/soggiorni/${unit.kind === "apartment" ? "appartamenti" : "camere"}#${unit.id}`,
-      ),
+      url: absoluteUrl(unitHref(unit)),
       ...(unit.description ? { description: unit.description } : {}),
-      ...(unit.photos[0] ? { image: absoluteUrl(unit.photos[0].src) } : {}),
+      ...(unit.photos.length
+        ? { image: unit.photos.map((photo) => absoluteUrl(photo.src)) }
+        : {}),
       ...(unit.maxGuests
         ? {
             occupancy: {

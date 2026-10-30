@@ -53,7 +53,7 @@ const faqs = [
   {
     question: "Gli sposi e gli ospiti possono dormire in villa?",
     answer:
-      "Sì. Villa San Carlo dispone di sei camere nella villa principale e di due appartamenti indipendenti, ideali per gli sposi, la famiglia o gli ospiti che arrivano da lontano.",
+      "Sì. Villa San Carlo dispone di cinque camere nella villa principale, di una camera accessibile e di due appartamenti indipendenti, ideali per gli sposi, la famiglia o gli ospiti che arrivano da lontano.",
   },
   {
     question: "Posso visitare la villa prima di decidere?",

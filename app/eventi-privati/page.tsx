@@ -47,7 +47,7 @@ const faqs = [
   {
     question: "Gli invitati possono fermarsi a dormire?",
     answer:
-      "Sì. La villa dispone di sei camere e di due appartamenti indipendenti: un'ottima soluzione per parenti e amici che arrivano da fuori.",
+      "Sì. La villa dispone di sei camere, tra cui una accessibile, e di due appartamenti indipendenti: un'ottima soluzione per parenti e amici che arrivano da fuori.",
   },
 ];
 

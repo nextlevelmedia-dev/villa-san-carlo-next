@@ -47,7 +47,7 @@ const faqs = [
   {
     question: "I partecipanti possono pernottare in villa?",
     answer:
-      "Sì. Villa San Carlo dispone di sei camere nella villa principale e di due appartamenti indipendenti, utili per eventi di più giorni o per relatori e ospiti che arrivano da fuori.",
+      "Sì. Villa San Carlo dispone di cinque camere nella villa principale, di una camera accessibile e di due appartamenti indipendenti, utili per eventi di più giorni o per relatori e ospiti che arrivano da fuori.",
   },
   {
     question: "Si può fare un sopralluogo prima di confermare?",
@@ -193,8 +193,8 @@ export default function EventiMeetingPage() {
       >
         <p>
           Per gli eventi di più giorni, o per chi arriva da lontano, la villa
-          offre sei camere nello stabile principale e due appartamenti
-          indipendenti.
+          offre cinque camere nella villa principale, una camera accessibile
+          e due appartamenti indipendenti.
         </p>
         <p>
           Relatori, ospiti e partecipanti possono così restare nello stesso

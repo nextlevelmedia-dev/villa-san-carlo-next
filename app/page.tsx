@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Villa San Carlo | Dimora storica per eventi e soggiorni a Cremona",
     description:
-      "Dimora storica in provincia di Cremona per matrimoni, ricevimenti, eventi privati e meeting aziendali, con 6 camere e 2 appartamenti per soggiornare in villa.",
+      "Dimora storica in provincia di Cremona per matrimoni, ricevimenti, eventi privati e meeting aziendali, con camere e appartamenti per soggiornare in villa.",
     path: "/",
   }),
   title: {

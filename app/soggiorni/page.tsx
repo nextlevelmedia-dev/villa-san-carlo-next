@@ -18,7 +18,7 @@ import { apartments, rooms } from "@/lib/stays";
 
 const title = "Camere e appartamenti in provincia di Cremona";
 const description =
-  "Soggiorna in una dimora storica nel Cremonese: 6 camere nella villa principale, di cui una accessibile, e 2 appartamenti indipendenti. Richiedi disponibilità.";
+  "Soggiorna in una dimora storica nel Cremonese: 5 camere nella villa principale, 1 camera accessibile e 2 appartamenti indipendenti. Richiedi disponibilità.";
 
 export const metadata: Metadata = pageMetadata({
   title,
@@ -28,19 +28,19 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const accessibleRoom = rooms.find((room) => room.accessible);
-const apartmentPhotos = [photos.appartamento, ...apartments.flatMap((unit) => unit.photos)];
-const roomPhotos = [photos.camera, ...rooms.flatMap((unit) => unit.photos)];
+const apartmentPhotos = apartments.flatMap((unit) => unit.photos);
+const roomPhotos = rooms.flatMap((unit) => unit.photos);
 
 const faqs = [
   {
     question: "Qual è la differenza tra camere e appartamenti?",
     answer:
-      "Le sei camere si trovano nella villa principale e permettono di vivere da vicino gli ambienti della dimora. I due appartamenti sono indipendenti e offrono maggiore autonomia e riservatezza, ad esempio per famiglie o soggiorni più lunghi.",
+      "Cinque camere si trovano nella villa principale e permettono di vivere da vicino gli ambienti della dimora; a queste si aggiunge una camera accessibile. I due appartamenti sono indipendenti e offrono maggiore autonomia e riservatezza, ad esempio per famiglie o soggiorni più lunghi.",
   },
   {
     question: "È disponibile una camera accessibile?",
     answer:
-      "Sì, una delle sei camere della villa è accessibile a persone con disabilità. Per conoscerne nel dettaglio le caratteristiche, scrivici: ti daremo tutte le informazioni utili per organizzare il soggiorno.",
+      "Sì, oltre alle cinque camere della villa principale è disponibile una camera accessibile a persone con disabilità. Per conoscerne nel dettaglio le caratteristiche, scrivici: ti daremo tutte le informazioni utili per organizzare il soggiorno.",
   },
   {
     question: "Si può soggiornare anche senza partecipare a un evento?",
@@ -75,8 +75,8 @@ export default function SoggiorniPage() {
         titleLines={["Dormire in una", "dimora storica", "nel Cremonese."]}
         intro={
           <p>
-            Sei camere nella villa principale e due appartamenti
-            indipendenti, per un soggiorno tranquillo in provincia di
+            Cinque camere nella villa principale, una camera accessibile e
+            due appartamenti indipendenti, per un soggiorno tranquillo in provincia di
             Cremona: per una vacanza, un viaggio di lavoro o qualche notte
             legata a un evento in villa.
           </p>
@@ -94,14 +94,14 @@ export default function SoggiorniPage() {
           <dl className="grid max-w-md grid-cols-3 border-y border-[#D8CABB] py-5 text-center">
             <div>
               <dt className="text-[10px] uppercase tracking-[0.18em] text-[#7A5F49]">Camere</dt>
-              <dd className="mt-1 text-2xl text-[#3B2118]">{rooms.length}</dd>
+              <dd className="mt-1 text-2xl text-[#3B2118]">{rooms.filter((r) => !r.accessible).length}</dd>
             </div>
             <div className="border-x border-[#D8CABB]">
               <dt className="text-[10px] uppercase tracking-[0.18em] text-[#7A5F49]">Appartamenti</dt>
               <dd className="mt-1 text-2xl text-[#3B2118]">{apartments.length}</dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.18em] text-[#7A5F49]">Accessibile</dt>
+              <dt className="text-[10px] uppercase tracking-[0.18em] text-[#7A5F49]">Accessibili</dt>
               <dd className="mt-1 text-2xl text-[#3B2118]">{rooms.filter((r) => r.accessible).length}</dd>
             </div>
           </dl>
@@ -163,8 +163,8 @@ export default function SoggiorniPage() {
           id="camere"
           tone="white"
           reverse
-          count={rooms.length}
-          countLabel="Camere nella villa principale"
+          count={rooms.filter((room) => !room.accessible).length}
+          countLabel="Camere nella villa principale + 1 accessibile"
           eyebrow="Le camere"
           title="Dormire nel cuore della villa."
           photo={photos.camera}
@@ -173,8 +173,9 @@ export default function SoggiorniPage() {
           linkLabel="Scopri le camere"
         >
           <p>
-            Sei camere nello stabile principale della dimora: per vivere la
-            villa anche di notte, nel silenzio che segue la giornata.
+            Cinque camere nello stabile principale della dimora, per vivere la
+            villa anche di notte, e una camera accessibile a persone con
+            disabilità.
           </p>
           <p>
             Una soluzione naturale per coppie, viaggiatori e ospiti di
@@ -199,8 +200,8 @@ export default function SoggiorniPage() {
 
             <div {...reveal(1)} className="space-y-5 text-base leading-7 text-[#6D625B] md:text-lg md:leading-8">
               <p>
-                Tra le sei camere della villa principale, una è accessibile a
-                persone con disabilità, perché l&apos;ospitalità di una
+                Oltre alle cinque camere della villa principale, Villa San
+                Carlo dispone di una camera accessibile a persone con disabilità, perché l&apos;ospitalità di una
                 dimora storica possa essere vissuta da tutti.
               </p>
               <p>
@@ -284,7 +285,7 @@ export default function SoggiorniPage() {
           "Informazioni sulla camera accessibile",
         ]}
         primary={{ label: "Richiedi disponibilità", href: "/contatti?tipo=soggiorno" }}
-        photo={photos.corte}
+        photo={photos.camera2}
         whatsappMessage="Buongiorno, vorrei informazioni sulla disponibilità di camere/appartamenti a Villa San Carlo."
       />
     </>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import Atmosphere from "@/components/ui/Atmosphere";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import HeroSlider, { type Slide } from "@/components/ui/HeroSlider";
 import { delay } from "@/lib/reveal";
 import type { Photo } from "@/lib/images";
 import type { Crumb } from "@/lib/seo";
@@ -17,6 +18,7 @@ export default function PageHero({
   titleLines,
   intro,
   photo,
+  slides,
   actions,
   note,
 }: {
@@ -25,6 +27,8 @@ export default function PageHero({
   titleLines: string[];
   intro: ReactNode;
   photo: Photo;
+  /** Se presenti (2+), al posto della foto singola compare uno slider */
+  slides?: Slide[];
   actions?: ReactNode;
   note?: ReactNode;
 }) {
@@ -79,16 +83,22 @@ export default function PageHero({
 
         {/* FOTO — LCP */}
         <div className="relative h-[380px] overflow-hidden bg-[#E8DED4] sm:h-[480px] lg:h-[min(640px,calc(88svh-140px))]">
-          <Image
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            loading="eager"
-            fetchPriority="high"
-            sizes="(max-width: 1024px) 100vw, 52vw"
-            className="object-cover"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-[#3B2118]/5" />
+          {slides && slides.length > 1 ? (
+            <HeroSlider slides={slides} />
+          ) : (
+            <>
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                loading="eager"
+                fetchPriority="high"
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                className="object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[#3B2118]/5" />
+            </>
+          )}
         </div>
       </div>
     </section>
