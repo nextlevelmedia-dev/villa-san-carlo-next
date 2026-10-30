@@ -81,7 +81,15 @@ export default function SoggiorniPage() {
             legata a un evento in villa.
           </p>
         }
-        photo={photos.camera}
+        photo={photos.camera1}
+        slides={[
+          { photo: photos.camera1, label: "Camera 1" },
+          { photo: photos.appartamento, label: "Appartamento 1" },
+          { photo: photos.camera3, label: "Camera 3" },
+          { photo: photos.appartamento2, label: "Appartamento 2" },
+          { photo: photos.camera5, label: "Camera 5" },
+          { photo: photos.appartamento2Camera, label: "Appartamento 2" },
+        ]}
         actions={
           <>
             <ButtonLink href="/contatti?tipo=soggiorno">Richiedi disponibilità</ButtonLink>
@@ -167,7 +175,7 @@ export default function SoggiorniPage() {
           countLabel="Camere nella villa principale + 1 accessibile"
           eyebrow="Le camere"
           title="Dormire nel cuore della villa."
-          photo={photos.camera}
+          photo={photos.camera4}
           placeholderLabel="Camere di Villa San Carlo"
           href="/soggiorni/camere"
           linkLabel="Scopri le camere"

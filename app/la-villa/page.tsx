@@ -203,7 +203,7 @@ export default function LaVillaPage() {
             eyebrow: "Camere · Appartamenti",
             title: "Soggiorni in villa",
             cta: "Scopri l'ospitalità",
-            photo: photos.camera,
+            photo: photos.camera1,
           },
         ]}
       />

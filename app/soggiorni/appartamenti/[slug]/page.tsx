@@ -246,7 +246,7 @@ export default async function AppartamentoPage({ params }: Props) {
                 className="group relative block min-h-[320px] overflow-hidden bg-[#3B2118]"
               >
                 <Image
-                  src={photos.camera.src}
+                  src={photos.camera3.src}
                   alt=""
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"

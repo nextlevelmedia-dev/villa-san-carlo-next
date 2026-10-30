@@ -71,7 +71,7 @@ export default function CamerePage() {
             Cremona.
           </p>
         }
-        photo={photos.camera}
+        photo={photos.camera1}
         slides={rooms.flatMap((room) =>
           room.photos.map((photo) => ({ photo, label: room.name })),
         )}

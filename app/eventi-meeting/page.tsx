@@ -184,7 +184,7 @@ export default function EventiMeetingPage() {
         reverse
         eyebrow="Evento e soggiorno"
         title="Lavorare, fermarsi, ripartire il giorno dopo."
-        photo={photos.camera}
+        photo={photos.camera2}
         action={
           <ButtonLink href="/soggiorni" variant="text">
             Camere e appartamenti
