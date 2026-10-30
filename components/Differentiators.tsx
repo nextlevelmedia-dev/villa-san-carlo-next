@@ -93,21 +93,21 @@ export default function Differentiators() {
     <section className="bg-[#F8F5F0]">
       {/* INTRO */}
       <div className="mx-auto max-w-[1440px] px-6 pb-12 pt-20 text-center lg:px-12 lg:pb-14 lg:pt-28">
-        <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#A58B73] sm:text-[11px]">
+        <p data-reveal="up" className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#7A5F49] sm:text-[11px]">
           Perché Villa San Carlo
         </p>
 
-        <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+        <div data-reveal="fade" data-delay="1" className="mx-auto mt-5 flex items-center justify-center gap-3">
           <span className="h-px w-10 bg-[#CDB9A7]" />
           <span className="text-[10px] text-[#B69A82]">✦</span>
           <span className="h-px w-10 bg-[#CDB9A7]" />
         </div>
 
-        <h2 className="mx-auto mt-6 max-w-4xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
+        <h2 data-reveal="up" data-delay="1" className="mx-auto mt-6 max-w-4xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
           Tutto ciò che serve per vivere un evento davvero memorabile.
         </h2>
 
-        <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
+        <p data-reveal="up" data-delay="2" className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
           Il carattere di una dimora storica, spazi diversi da vivere e la
           libertà di accogliere ogni momento del tuo evento nello stesso luogo.
         </p>
@@ -118,7 +118,7 @@ export default function Differentiators() {
         {/* IMMAGINE */}
         <div className="relative h-[520px] w-full overflow-hidden">
           <Image
-            src="/image/cortile-agri.png"
+            src="/images/cortile-agri.jpg"
             alt="Villa San Carlo, dimora storica per eventi"
             fill
             sizes="100vw"
@@ -130,10 +130,11 @@ export default function Differentiators() {
         </div>
 
         {/* CARDS SOVRAPPOSTE */}
-        <div className="relative z-10 mx-auto -mt-32 grid max-w-[1440px] grid-cols-2 gap-4 px-8 lg:grid-cols-4 lg:gap-5 lg:px-12">
+        <div data-reveal-group className="relative z-10 mx-auto -mt-32 grid max-w-[1440px] grid-cols-2 gap-4 px-8 lg:grid-cols-4 lg:gap-5 lg:px-12">
           {differentiators.map((item) => (
             <article
               key={item.number}
+              data-reveal="up"
               className="min-h-[280px] border border-[#CBB8A7] bg-[#FBF8F4] p-7 text-[#3B2118] lg:min-h-[300px]"
             >
               {/* ICONA */}
@@ -141,7 +142,7 @@ export default function Differentiators() {
                 {item.icon}
               </div>
 
-              <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.2em] text-[#A58B73]">
+              <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.2em] text-[#7A5F49]">
                 {item.number}
               </p>
 
@@ -157,7 +158,7 @@ export default function Differentiators() {
         </div>
 
         {/* CTA DESKTOP */}
-        <div className="mt-12 flex justify-center">
+        <div data-reveal="up" data-delay="3" className="mt-12 flex justify-center">
           <Link
             href="/la-villa"
             className="group inline-flex min-h-14 items-center justify-center gap-5 bg-[#4A281B] px-10 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:bg-[#5B3325]"
@@ -179,7 +180,7 @@ export default function Differentiators() {
         {/* FOTO */}
         <div className="relative h-[300px] w-full overflow-hidden">
           <Image
-            src="/image/value-evento.PNG"
+            src="/images/value-evento.jpg"
             alt="Villa San Carlo, dimora storica per eventi"
             fill
             sizes="100vw"
@@ -196,7 +197,7 @@ export default function Differentiators() {
               {differentiators[active].icon}
             </div>
 
-            <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.2em] text-[#A58B73]">
+            <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.2em] text-[#7A5F49]">
               {differentiators[active].number}
             </p>
 
@@ -211,7 +212,7 @@ export default function Differentiators() {
 
           {/* DOTS */}
           <div
-            className="mt-5 flex items-center justify-center gap-2"
+            className="mt-5 flex items-center justify-center gap-1"
             aria-label="Seleziona caratteristica"
           >
             {differentiators.map((item, index) => (
@@ -221,12 +222,17 @@ export default function Differentiators() {
                 onClick={() => setActive(index)}
                 aria-label={`Mostra caratteristica ${index + 1}`}
                 aria-current={active === index ? "true" : undefined}
-                className={`h-2.5 w-2.5 border border-[#A58B73] transition-colors ${
-                  active === index
-                    ? "bg-[#A58B73]"
-                    : "bg-transparent"
-                }`}
-              />
+                className="flex h-6 w-6 items-center justify-center"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-2.5 w-2.5 border border-[#A58B73] transition-colors ${
+                    active === index
+                      ? "bg-[#A58B73]"
+                      : "bg-transparent"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 

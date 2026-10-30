@@ -7,7 +7,7 @@ const steps = [
     eyebrow: "Raccontaci",
     title: "Partiamo dall’evento che immagini.",
     text: "Raccontaci l’occasione, il numero di ospiti e l’atmosfera che vorresti creare. Ogni evento nasce da un’idea diversa e Villa San Carlo offre ambienti capaci di accoglierla con naturalezza.",
-    image: "/image/evento01.JPG",
+    image: "/images/evento01.jpg",
     alt: "Dettaglio di un evento a Villa San Carlo",
   },
   {
@@ -15,7 +15,7 @@ const steps = [
     eyebrow: "Scopri gli spazi",
     title: "Trova l’ambiente giusto per ogni momento.",
     text: "Sale storiche, corte, portici e giardino permettono di immaginare ogni fase dell’evento in uno spazio diverso, mantenendo tutto all’interno della stessa dimora.",
-    image: "/image/matrimonio-giardino.png",
+    image: "/images/matrimonio-giardino.jpg",
     alt: "Spazi interni ed esterni di Villa San Carlo",
   },
   {
@@ -23,7 +23,7 @@ const steps = [
     eyebrow: "Vivi la villa",
     title: "Goditi ogni momento, senza fretta.",
     text: "Dall’arrivo degli ospiti fino alla fine della giornata, tutto può essere vissuto a Villa San Carlo. E con la possibilità di soggiornare, l’esperienza può continuare anche oltre l’evento.",
-    image: "/image/soggiorno.JPG",
+    image: "/images/soggiorno.jpg",
     alt: "Ospitalità a Villa San Carlo",
   },
 ];
@@ -48,30 +48,30 @@ export default function HowItWorks() {
 
         {/* INTRO */}
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#A58B73] sm:text-[11px]">
+          <p data-reveal="up" className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#7A5F49] sm:text-[11px]">
             Come si vive Villa San Carlo
           </p>
 
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+          <div data-reveal="fade" data-delay="1" className="mx-auto mt-5 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[#CDB9A7]" />
             <span className="text-[10px] text-[#B69A82]">✦</span>
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 className="mx-auto mt-6 max-w-3xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
+          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-6 max-w-3xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
             Il tuo evento, dall’idea al ricordo, tutto nello stesso luogo.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
+          <p data-reveal="up" data-delay="2" className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
             Immagina il tuo evento, scegli gli spazi che meglio lo rappresentano
             e vivi ogni momento nel fascino di una vera dimora storica.
           </p>
         </div>
 
         {/* 3 STEP */}
-        <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-5 lg:mt-16 lg:gap-7">
+        <div data-reveal-group className="mt-14 grid gap-12 md:grid-cols-3 md:gap-5 lg:mt-16 lg:gap-7">
           {steps.map((step) => (
-            <article key={step.number} className="group">
+            <article key={step.number} data-reveal="up" className="group">
               {/* IMAGE */}
               <div className="relative aspect-[4/3] overflow-hidden bg-[#E8DED4] md:aspect-[4/4.3] lg:aspect-[4/3.6]">
                 <Image
@@ -92,7 +92,7 @@ export default function HowItWorks() {
 
               {/* COPY */}
               <div className="pt-6 lg:pt-7">
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#A58B73]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#7A5F49]">
                   {step.eyebrow}
                 </p>
 
@@ -111,8 +111,8 @@ export default function HowItWorks() {
         </div>
 
         {/* CTA */}
-        <div className="mt-14 flex flex-col items-center lg:mt-16">
-          <p className="mb-5 text-center text-sm leading-6 text-[#786A61]">
+        <div data-reveal="up" data-delay="3" className="mt-14 flex flex-col items-center lg:mt-16">
+          <p className="mb-5 text-center text-sm leading-6 text-[#6F625A]">
             Hai già in mente il tuo evento?
           </p>
 

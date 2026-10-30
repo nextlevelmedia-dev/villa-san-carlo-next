@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Villa San Carlo — sito web
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · GSAP (solo pagina Gallery).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # sviluppo
+npm run build   # build di produzione
+npm run start   # server di produzione
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configurazione prima della pubblicazione
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Variabili d'ambiente (vedi `.env.example`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variabile | Uso |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | URL pubblico: canonical, sitemap, robots, Open Graph. Senza questa variabile (e fuori da Vercel) gli URL puntano a `localhost`. |
+| `RESEND_API_KEY` | Chiave API Resend per l'invio del modulo contatti (solo server). |
+| `CONTACT_TO_EMAIL` | Indirizzo che riceve le richieste. |
+| `CONTACT_FROM_EMAIL` | Mittente su un dominio verificato in Resend. |
 
-## Learn More
+Finché le tre variabili email non sono impostate, il modulo **non simula l'invio**:
+mostra all'utente un messaggio di errore esplicito e registra l'avviso nei log del server.
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Dati aziendali — `lib/site.ts`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tutti i campi `null` (email, telefono, WhatsApp, indirizzo e comune, coordinate,
+distanza da Cremona, social, ragione sociale, P.IVA, CIN) non vengono mostrati
+finché non sono compilati. Una volta inseriti compaiono automaticamente in header,
+footer, pagina Contatti (con mappa a caricamento su consenso), CTA WhatsApp e
+dati strutturati Schema.org.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Camere e appartamenti — `lib/stays.ts`
 
-## Deploy on Vercel
+2 appartamenti + 6 camere (1 accessibile). Per ogni unità si possono aggiungere
+nome, descrizione, ospiti, metratura, letti, servizi e fotografie: le schede, le
+gallerie e i dati strutturati (`Apartment` / `HotelRoom`) si aggiornano da soli.
+`stayInfo` ospita le informazioni pratiche (check-in, colazione, parcheggio…).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Fotografie — `lib/images.ts` e `public/images/`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Catalogo centralizzato con dimensioni e testi alternativi. Per sostituire o
+aggiungere una foto: copiarla in `public/images/` (JPEG, lato lungo ≤ 2400 px)
+e aggiungerla al catalogo.
+
+### 5. Testi legali
+
+`/privacy-policy` e `/cookie-policy` contengono un testo base coerente con il
+funzionamento attuale del sito (nessun cookie di profilazione o statistica).
+Vanno completati con i dati del titolare e verificati da un consulente. Se si
+aggiungono analytics o pixel, serve anche un banner di consenso.
+
+## Architettura
+
+- `lib/` — configurazione (sito, immagini, alloggi, rotte), SEO, reveal, modulo contatti.
+- `components/ui/` — componenti condivisi (PageHero, SectionHeading, EditorialSection,
+  SpaceCards, GalleryGrid, FaqSection, ContactCTA, Breadcrumbs, JsonLd…).
+- `components/stays/`, `components/contact/` — sezioni specifiche.
+- Animazioni: un solo IntersectionObserver (`RevealObserver`) + transizioni CSS;
+  attributo `data-reveal` sugli elementi. Rispetta `prefers-reduced-motion` e
+  non nasconde nulla se JavaScript non è attivo.
+- Intro del logo: animazione CSS sull'header, una volta per sessione, non bloccante.

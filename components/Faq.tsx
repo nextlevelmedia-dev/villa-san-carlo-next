@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import FaqAccordion from "@/components/ui/FaqAccordion";
 
 const faqs = [
   {
@@ -37,12 +35,6 @@ const faqs = [
 ];
 
 export default function Faq() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const toggleFaq = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
     <section className="relative overflow-hidden bg-[#F8F5F0]">
       {/* BACKGROUND ATMOSFERICO */}
@@ -58,21 +50,21 @@ export default function Faq() {
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-20 lg:px-12 lg:py-28">
         {/* INTRO */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#A58B73]">
+          <p data-reveal="up" className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#7A5F49]">
             Domande frequenti
           </p>
 
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+          <div data-reveal="fade" data-delay="1" className="mx-auto mt-5 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[#CDB9A7]" />
             <span className="text-[10px] text-[#B69A82]">✦</span>
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 className="mx-auto mt-6 max-w-2xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-6 max-w-2xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[52px]">
             Tutto quello che potresti voler sapere prima di scegliere la villa.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
+          <p data-reveal="up" data-delay="2" className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#6D625B] sm:text-base md:text-lg md:leading-8">
             Abbiamo raccolto alcune delle domande più comuni per aiutarti a
             capire meglio come vivere e organizzare il tuo evento a Villa San
             Carlo.
@@ -80,52 +72,8 @@ export default function Faq() {
         </div>
 
         {/* ACCORDION */}
-        <div className="mt-14 border-t border-[#D8CABB] lg:mt-16">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div
-                key={faq.question}
-                className="border-b border-[#D8CABB]"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(index)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-8 py-6 text-left sm:py-7"
-                >
-                  <span className="max-w-3xl text-lg leading-7 text-[#3B2118] sm:text-xl">
-                    {faq.question}
-                  </span>
-
-                  <span
-                    className={`relative flex h-9 w-9 shrink-0 items-center justify-center border border-[#C8AD92] text-[#4A281B] transition-transform duration-500 ${
-                      isOpen ? "rotate-45" : "rotate-0"
-                    }`}
-                    aria-hidden="true"
-                  >
-                    <span className="absolute h-px w-3.5 bg-current" />
-                    <span className="absolute h-3.5 w-px bg-current" />
-                  </span>
-                </button>
-
-                <div
-                  className={`grid transition-all duration-500 ease-in-out ${
-                    isOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <p className="max-w-3xl pb-7 text-sm leading-7 text-[#6D625B] sm:text-base sm:leading-8">
-                      {faq.answer}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <div data-reveal="fade" className="mt-14 lg:mt-16">
+          <FaqAccordion items={faqs} />
         </div>
       </div>
     </section>

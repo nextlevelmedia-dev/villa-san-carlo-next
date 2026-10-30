@@ -7,75 +7,75 @@ import { Observer } from "gsap/Observer";
 
 const images = [
   {
-    src: "/image/location-villa-san-carlo.PNG",
+    src: "/images/location-villa-san-carlo.jpg",
     alt: "Villa San Carlo durante un ricevimento",
   },
   {
-    src: "/image/villa-sera.PNG",
+    src: "/images/villa-sera.jpg",
     alt: "Villa San Carlo alla sera",
   },
   {
-    src: "/image/portico.PNG",
+    src: "/images/portico.jpg",
     alt: "Portico storico di Villa San Carlo",
   },
   {
-    src: "/image/value-ospitalita.PNG",
+    src: "/images/value-ospitalita.jpg",
     alt: "Spazi esterni di Villa San Carlo",
   },
   {
-    src: "/image/value-event.PNG",
+    src: "/images/value-event.jpg",
     alt: "Allestimento per evento a Villa San Carlo",
   },
   {
-    src: "/image/eventi-privati.PNG",
+    src: "/images/eventi-privati.jpg",
     alt: "Evento privato a Villa San Carlo",
   },
   {
-    src: "/image/location-eventi.PNG",
+    src: "/images/location-eventi.jpg",
     alt: "Sala per eventi e meeting",
   },
   {
-    src: "/image/soggiorno.JPG",
+    src: "/images/soggiorno.jpg",
     alt: "Soggiorno a Villa San Carlo",
   },
   {
-    src: "/image/giardino.png",
+    src: "/images/giardino.jpg",
     alt: "Giardino di Villa San Carlo",
   },
   {
-    src: "/image/about-villa.PNG",
+    src: "/images/about-villa.jpg",
     alt: "Villa San Carlo",
   },
   {
-    src: "/image/evento01.JPG",
+    src: "/images/evento01.jpg",
     alt: "Evento a Villa San Carlo",
   },
   {
-    src: "/image/festa.png",
+    src: "/images/festa.jpg",
     alt: "Festa a Villa San Carlo",
   },
   {
-    src: "/image/ospitalita.png",
+    src: "/images/ospitalita.jpg",
     alt: "Ospitalità a Villa San Carlo",
   },
   {
-    src: "/image/buchirale.png",
+    src: "/images/buchirale.jpg",
     alt: "Sala storica di Villa San Carlo",
   },
   {
-    src: "/image/cortile-agri.png",
+    src: "/images/cortile-agri.jpg",
     alt: "Cortile di Villa San Carlo",
   },
   {
-    src: "/image/matrimonio-cortile.png",
+    src: "/images/matrimonio-cortile.jpg",
     alt: "Matrimonio nel cortile di Villa San Carlo",
   },
   {
-    src: "/image/matrimonio-giardino.png",
+    src: "/images/matrimonio-giardino.jpg",
     alt: "Ricevimento nel giardino di Villa San Carlo",
   },
   {
-    src: "/image/final-cta.jpg",
+    src: "/images/final-cta.jpg",
     alt: "Atmosfera di Villa San Carlo",
   },
 ];
@@ -806,7 +806,7 @@ export default function InfiniteGallery() {
                         image.alt
                       }
                       fill
-                      quality={72}
+                      quality={75}
                       loading={
                         index < 6
                           ? "eager"
@@ -1012,8 +1012,8 @@ export default function InfiniteGallery() {
                 images[activeIndex].alt
               }
               fill
-              priority
-              quality={88}
+              loading="eager"
+              quality={85}
               sizes="100vw"
               className="object-contain"
             />

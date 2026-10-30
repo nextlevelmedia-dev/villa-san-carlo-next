@@ -7,21 +7,21 @@ export default function WhyVilla() {
 
         {/* INTRO */}
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.26em] text-[#A58B73]">
+          <p data-reveal="up" className="text-[11px] font-medium uppercase tracking-[0.26em] text-[#7A5F49]">
             Non una location qualunque
           </p>
 
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+          <div data-reveal="fade" data-delay="1" className="mx-auto mt-5 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[#CDB9A7]" />
             <span className="text-sm text-[#B69A82]">✦</span>
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[54px]">
+          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[54px]">
             Il tuo evento merita un luogo che si faccia ricordare.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#6D625B] md:text-lg">
+          <p data-reveal="up" data-delay="2" className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#6D625B] md:text-lg">
             Non solo uno spazio da allestire, ma un’autentica dimora storica
             da vivere. Ambienti interni ed esterni, atmosfere diverse e tutto
             ciò che serve per accogliere ogni momento dell’evento.
@@ -29,11 +29,11 @@ export default function WhyVilla() {
         </div>
 
         {/* 3 BENEFIT */}
-        <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 lg:mt-16 lg:grid-cols-3 lg:gap-0">
+        <div data-reveal-group className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 lg:mt-16 lg:grid-cols-3 lg:gap-0">
 
           {/* 01 */}
-          <div className="relative px-2 text-center sm:px-5 lg:px-10">
-            <span className="block text-xs tracking-[0.14em] text-[#B89577] sm:text-sm">
+          <div data-reveal="up" className="relative px-2 text-center sm:px-5 lg:px-10">
+            <span className="block text-xs tracking-[0.14em] text-[#7A5F49] sm:text-sm">
               01
             </span>
 
@@ -65,7 +65,7 @@ export default function WhyVilla() {
 
           {/* 02 */}
           <div className="relative border-l border-[#DCCFC3] px-2 text-center sm:px-5 lg:border-x lg:px-10">
-            <span className="block text-xs tracking-[0.14em] text-[#B89577] sm:text-sm">
+            <span className="block text-xs tracking-[0.14em] text-[#7A5F49] sm:text-sm">
               02
             </span>
 
@@ -97,7 +97,7 @@ export default function WhyVilla() {
 
           {/* 03 */}
           <div className="relative col-span-2 mx-auto max-w-[420px] border-t border-[#DCCFC3] px-6 pt-10 text-center lg:col-span-1 lg:max-w-none lg:border-t-0 lg:px-10 lg:pt-0">
-            <span className="block text-xs tracking-[0.14em] text-[#B89577] sm:text-sm">
+            <span className="block text-xs tracking-[0.14em] text-[#7A5F49] sm:text-sm">
               03
             </span>
 
@@ -130,7 +130,7 @@ export default function WhyVilla() {
         </div>
 
         {/* CTA */}
-        <div className="mt-12 flex justify-center lg:mt-14">
+        <div data-reveal="up" data-delay="3" className="mt-12 flex justify-center lg:mt-14">
           <Link
             href="/cerimonie"
             className="inline-flex min-h-14 items-center justify-center gap-5 bg-[#4A281B] px-8 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:bg-[#5B3325] sm:px-10"

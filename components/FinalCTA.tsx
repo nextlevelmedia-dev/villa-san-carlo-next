@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { whatsappUrl } from "@/lib/site";
 
 export default function FinalCTA() {
+  const whatsapp = whatsappUrl(
+    "Buongiorno, vorrei ricevere informazioni su Villa San Carlo.",
+  );
+
   return (
     <section className="relative w-full overflow-hidden bg-[#F8F5F0]">
       {/* =========================================================
@@ -10,7 +15,7 @@ export default function FinalCTA() {
       <div className="relative hidden min-h-[620px] md:block">
         {/* FOTO FULL WIDTH */}
         <Image
-          src="/image/final-cta.jpg"
+          src="/images/final-cta.jpg"
           alt="Evento serale nel cortile di Villa San Carlo"
           fill
           sizes="100vw"
@@ -23,11 +28,11 @@ export default function FinalCTA() {
         {/* CONTENITORE CENTRATO */}
         <div className="relative z-10 mx-auto flex min-h-[620px] max-w-[1440px] items-center justify-center px-6 lg:px-12">
           {/* CARD ORIZZONTALE */}
-          <div className="w-full max-w-[820px] bg-[#FBF8F4] px-10 py-10 shadow-[0_24px_70px_rgba(35,20,14,0.15)] lg:px-12">
+          <div data-reveal="up" className="w-full max-w-[820px] bg-[#FBF8F4] px-10 py-10 shadow-[0_24px_70px_rgba(35,20,14,0.15)] lg:px-12">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
               {/* SINISTRA */}
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#A58B73]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#7A5F49]">
                   Il tuo evento inizia da qui
                 </p>
 
@@ -90,18 +95,24 @@ export default function FinalCTA() {
 
                 {/* CTA */}
                 <div className="mt-7 flex flex-wrap gap-3">
-                  <a
-                    href="https://wa.me/39XXXXXXXXXX"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-12 items-center justify-center gap-3 bg-[#4A281B] px-6 text-[10px] font-medium uppercase tracking-[0.15em] text-white transition-colors duration-300 hover:bg-[#5B3325]"
-                  >
-                    WhatsApp
-                  </a>
+                  {whatsapp && (
+                    <a
+                      href={whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-12 items-center justify-center gap-3 bg-[#4A281B] px-6 text-[10px] font-medium uppercase tracking-[0.15em] text-white transition-colors duration-300 hover:bg-[#5B3325]"
+                    >
+                      WhatsApp
+                    </a>
+                  )}
 
                   <Link
                     href="/contatti"
-                    className="inline-flex min-h-12 items-center justify-center gap-3 border border-[#CDB9A7] px-6 text-[10px] font-medium uppercase tracking-[0.15em] text-[#4A281B] transition-colors duration-300 hover:border-[#4A281B]"
+                    className={`inline-flex min-h-12 items-center justify-center gap-3 px-6 text-[10px] font-medium uppercase tracking-[0.15em] transition-colors duration-300 ${
+                      whatsapp
+                        ? "border border-[#CDB9A7] text-[#4A281B] hover:border-[#4A281B]"
+                        : "bg-[#4A281B] text-white hover:bg-[#5B3325]"
+                    }`}
                   >
                     Contatti
                     <span aria-hidden="true">→</span>
@@ -109,7 +120,7 @@ export default function FinalCTA() {
                 </div>
 
                 {/* MICROCOPY */}
-                <p className="mt-5 max-w-[300px] text-[11px] leading-5 text-[#8A7C72]">
+                <p className="mt-5 max-w-[300px] text-[11px] leading-5 text-[#6F625A]">
                   Scrivici senza impegno. Ti aiuteremo a capire se Villa San
                   Carlo è il luogo giusto per il tuo evento.
                 </p>
@@ -126,7 +137,7 @@ export default function FinalCTA() {
         {/* FOTO */}
         <div className="relative h-[320px] w-full">
           <Image
-            src="/image/matrimonio-cortile.png"
+            src="/images/matrimonio-cortile.jpg"
             alt="Evento serale nel cortile di Villa San Carlo"
             fill
             sizes="100vw"
@@ -137,8 +148,8 @@ export default function FinalCTA() {
         </div>
 
         {/* CARD MOBILE */}
-        <div className="relative z-10 mx-4 -mt-8 bg-[#FBF8F4] px-6 py-8 shadow-[0_18px_50px_rgba(35,20,14,0.12)]">
-          <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#A58B73]">
+        <div data-reveal="up" className="relative z-10 mx-4 -mt-8 bg-[#FBF8F4] px-6 py-8 shadow-[0_18px_50px_rgba(35,20,14,0.12)]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#7A5F49]">
             Il tuo evento inizia da qui
           </p>
 
@@ -195,25 +206,31 @@ export default function FinalCTA() {
 
           {/* CTA */}
           <div className="mt-7 flex flex-col gap-3">
-            <a
-              href="https://wa.me/39XXXXXXXXXX"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-14 w-full items-center justify-center bg-[#4A281B] px-5 text-center text-[10px] font-medium uppercase tracking-[0.15em] text-white"
-            >
-              Parla con noi su WhatsApp
-            </a>
+            {whatsapp && (
+              <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-14 w-full items-center justify-center bg-[#4A281B] px-5 text-center text-[10px] font-medium uppercase tracking-[0.15em] text-white"
+              >
+                Parla con noi su WhatsApp
+              </a>
+            )}
 
             <Link
               href="/contatti"
-              className="flex min-h-14 w-full items-center justify-center gap-4 border border-[#CDB9A7] px-5 text-[10px] font-medium uppercase tracking-[0.15em] text-[#4A281B]"
+              className={`flex min-h-14 w-full items-center justify-center gap-4 px-5 text-[10px] font-medium uppercase tracking-[0.15em] ${
+                whatsapp
+                  ? "border border-[#CDB9A7] text-[#4A281B]"
+                  : "bg-[#4A281B] text-white"
+              }`}
             >
               Contatti
               <span aria-hidden="true">→</span>
             </Link>
           </div>
 
-          <p className="mt-5 text-[11px] leading-5 text-[#8A7C72]">
+          <p className="mt-5 text-[11px] leading-5 text-[#6F625A]">
             Scrivici senza impegno. Ti aiuteremo a capire se Villa San Carlo è
             il luogo giusto per il tuo evento.
           </p>

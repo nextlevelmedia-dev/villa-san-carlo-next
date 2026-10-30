@@ -17,12 +17,11 @@ export default function AboutVilla() {
       {/* CONTENUTO */}
       <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-12 px-6 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:px-12 lg:py-28">
         {/* FOTO */}
-        <div className="relative h-[440px] overflow-hidden sm:h-[520px] lg:h-[650px]">
+        <div data-reveal="image" className="relative h-[440px] overflow-hidden sm:h-[520px] lg:h-[650px]">
           <Image
-            src="/image/about-villa.PNG"
+            src="/images/about-villa.jpg"
             alt="Villa San Carlo, dimora storica"
             fill
-            priority={false}
             sizes="(max-width: 1024px) 100vw, 55vw"
             className="object-cover"
           />
@@ -32,7 +31,7 @@ export default function AboutVilla() {
 
           {/* LABEL FOTO */}
           <div className="absolute bottom-5 left-5 bg-[#F8F5F0] px-5 py-4 md:bottom-7 md:left-7 md:px-6 md:py-5">
-            <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#A58B73]">
+            <p data-reveal="up" className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#7A5F49]">
               Villa San Carlo
             </p>
 
@@ -45,13 +44,14 @@ export default function AboutVilla() {
         {/* TESTO */}
         <div className="max-w-[600px]">
           {/* EYEBROW */}
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#A58B73]">
+          <p data-reveal="up" className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#7A5F49]">
             Una storia da vivere
           </p>
 
           {/* DIVISORE */}
           <div
             aria-hidden="true"
+            data-reveal="fade" data-delay="1"
             className="mt-6 flex items-center gap-3"
           >
             <span className="h-px w-14 bg-[#CDB9A7]" />
@@ -60,12 +60,12 @@ export default function AboutVilla() {
           </div>
 
           {/* TITOLO */}
-          <h2 className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
+          <h2 data-reveal="up" data-delay="1" className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
             Una dimora che custodisce il passato e accoglie nuovi ricordi.
           </h2>
 
           {/* TESTO */}
-          <div className="mt-8 space-y-5">
+          <div data-reveal="up" data-delay="2" className="mt-8 space-y-5">
             <p className="text-base leading-7 text-[#6D625B] md:text-lg md:leading-8">
               Villa San Carlo conserva ancora oggi il carattere, i dettagli e
               l&apos;atmosfera di una vera casa storica. Ogni ambiente racconta
@@ -81,7 +81,7 @@ export default function AboutVilla() {
           </div>
 
           {/* CTA */}
-          <div className="mt-9">
+          <div data-reveal="up" data-delay="3" className="mt-9">
             <Link
               href="/la-villa"
               className="group inline-flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A281B] transition-opacity duration-300 hover:opacity-60"

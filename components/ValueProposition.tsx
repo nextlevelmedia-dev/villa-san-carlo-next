@@ -8,7 +8,7 @@ const items = [
     text: "Villa San Carlo non è una semplice location, ma una dimora storica da vivere. Ambienti autentici, sale ricche di fascino e dettagli che raccontano una storia creano una cornice capace di dare carattere a ogni momento. Qui il tuo evento prende vita in un’atmosfera intima ed esclusiva, lontana dagli spazi impersonali, trasformandosi in un’esperienza speciale da condividere con le persone che ami e ricordare nel tempo.",
     cta: "Scopri la villa",
     href: "/la-villa",
-    image: "/image/buchirale.png",
+    image: "/images/buchirale.jpg",
     alt: "Interni storici di Villa San Carlo",
   },
   {
@@ -18,7 +18,7 @@ const items = [
     text: "Sale storiche, corte, portici e giardino ti permettono di costruire ogni fase dell’evento in un ambiente diverso. Dall’accoglienza alla cena, fino ai momenti più intimi, tutto può essere vissuto all’interno della stessa dimora con naturalezza e continuità.",
     cta: "Esplora gli spazi",
     href: "/cerimonie",
-    image: "/image/festa.png",
+    image: "/images/festa.jpg",
     alt: "Ricevimento ed evento a Villa San Carlo",
   },
   {
@@ -26,8 +26,8 @@ const items = [
     title: "Vivi l’esperienza senza dover cambiare location.",
     text: "Con la possibilità di soggiornare direttamente in villa, tu e i tuoi ospiti potete vivere Villa San Carlo senza fretta. Un’esperienza più intima e completa, dove evento, ospitalità e tempo insieme diventano parte dello stesso ricordo.",
     cta: "Scopri l’ospitalità",
-    href: "/soggiorno",
-    image: "/image/ospitalità.png",
+    href: "/soggiorni",
+    image: "/images/ospitalita.jpg",
     alt: "Ospitalità e interni di Villa San Carlo",
   },
 ];
@@ -61,7 +61,7 @@ export default function ValueProposition() {
                 }`}
               >
                 {/* IMAGE */}
-                <div className="relative min-h-[360px] overflow-hidden md:min-h-[460px] lg:min-h-[540px]">
+                <div data-reveal="image" className="relative min-h-[360px] overflow-hidden md:min-h-[460px] lg:min-h-[540px]">
                   <Image
                     src={item.image}
                     alt={item.alt}
@@ -74,14 +74,15 @@ export default function ValueProposition() {
                 {/* COPY */}
 <div className="max-w-[620px]">
   {/* EYEBROW */}
-  <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#A58B73]">
+  <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#7A5F49]">
     {item.eyebrow}
   </p>
 
   {/* DIVISORE */}
   <div
     aria-hidden="true"
-    className="mt-6 flex items-center gap-3"
+    data-reveal="fade" data-delay="1"
+            className="mt-6 flex items-center gap-3"
   >
     <span className="h-px w-14 bg-[#CDB9A7]" />
     <span className="text-[10px] text-[#B69A82]">✦</span>
@@ -89,17 +90,17 @@ export default function ValueProposition() {
   </div>
 
   {/* TITOLO */}
-  <h2 className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
+  <h2 data-reveal="up" data-delay="1" className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
     {item.title}
   </h2>
 
   {/* TESTO */}
-  <p className="mt-8 max-w-[590px] text-base leading-7 text-[#6D625B] md:text-lg md:leading-8">
+  <p data-reveal="up" data-delay="2" className="mt-8 max-w-[590px] text-base leading-7 text-[#6D625B] md:text-lg md:leading-8">
     {item.text}
   </p>
 
   {/* CTA */}
-  <div className="mt-10">
+  <div data-reveal="up" data-delay="3" className="mt-10">
     <Link
       href={item.href}
       className="group inline-flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A281B] transition-opacity hover:opacity-60"
