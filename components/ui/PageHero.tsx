@@ -10,7 +10,7 @@ import type { Crumb } from "@/lib/seo";
 /**
  * Hero editoriale delle pagine interne: testo a sinistra, fotografia a
  * destra (come la Hero della home). La foto è l'elemento LCP: viene
- * precaricata e non è animata. Il titolo usa un reveal per riga in CSS.
+ * precaricata e non è animata. Il titolo usa lo split per parole (SplitTitles).
  */
 export default function PageHero({
   crumbs,
@@ -50,10 +50,14 @@ export default function PageHero({
             {eyebrow}
           </p>
 
-          <h1 className="mt-5 text-[38px] leading-[1.06] tracking-[-0.035em] text-[#3B2118] sm:text-5xl lg:text-[56px]">
-            {titleLines.map((line, index) => (
-              <span key={line} className="line-mask" {...delay(index)}>
-                <span>{line}</span>
+          <h1
+            data-split
+            data-split-delay="0.15"
+            className="mt-5 text-[38px] leading-[1.06] tracking-[-0.035em] text-[#3B2118] sm:text-5xl lg:text-[56px]"
+          >
+            {titleLines.map((line) => (
+              <span key={line} className="block">
+                {line}
               </span>
             ))}
           </h1>

@@ -60,7 +60,7 @@ export default function Faq() {
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-6 max-w-2xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h2 data-split className="mx-auto mt-6 max-w-2xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[52px]">
             Tutto quello che potresti voler sapere prima di scegliere la villa.
           </h2>
 

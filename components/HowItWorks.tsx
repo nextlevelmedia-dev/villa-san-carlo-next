@@ -58,7 +58,7 @@ export default function HowItWorks() {
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-6 max-w-3xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
+          <h2 data-split className="mx-auto mt-6 max-w-3xl text-3xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl lg:text-[54px]">
             Il tuo evento, dall’idea al ricordo, tutto nello stesso luogo.
           </h2>
 

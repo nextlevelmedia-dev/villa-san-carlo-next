@@ -60,7 +60,7 @@ export default function AboutVilla() {
           </div>
 
           {/* TITOLO */}
-          <h2 data-reveal="up" data-delay="1" className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
+          <h2 data-split className="mt-7 text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[52px]">
             Una dimora che custodisce il passato e accoglie nuovi ricordi.
           </h2>
 

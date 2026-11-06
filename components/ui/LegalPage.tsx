@@ -19,7 +19,7 @@ export default function LegalPage({
       <div className="mx-auto max-w-[860px] px-6 pb-24 pt-8 lg:pb-32 lg:pt-10">
         <Breadcrumbs items={[{ name: title, path }]} />
 
-        <h1 className="mt-12 text-4xl leading-[1.08] tracking-[-0.03em] text-[#3B2118] md:text-5xl">
+        <h1 data-split data-split-delay="0.1" className="mt-12 text-4xl leading-[1.08] tracking-[-0.03em] text-[#3B2118] md:text-5xl">
           {title}
         </h1>
         <Ornament className="mt-6" />

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import CookieBanner from "@/components/consent/CookieBanner";
 import JsonLd from "@/components/ui/JsonLd";
 import RevealObserver from "@/components/ui/RevealObserver";
+import SplitTitles from "@/components/ui/SplitTitles";
 import { headScript } from "@/lib/reveal";
 import { villaJsonLd, websiteJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -55,6 +56,7 @@ export default function RootLayout({
 
         <CookieBanner />
         <RevealObserver />
+        <SplitTitles />
         <JsonLd data={[villaJsonLd(), websiteJsonLd()]} />
       </body>
     </html>

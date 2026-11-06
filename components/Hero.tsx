@@ -28,13 +28,13 @@ export default function Hero() {
             Villa San Carlo · Casa Storica
           </p>
 
-          <h1 className="max-w-[620px] text-4xl leading-[1.06] tracking-[-0.035em] text-[#3B2118] md:text-5xl lg:text-[54px]">
-            <span className="line-mask" {...delay(0)}>
-              <span>
-                Vivi un evento indimenticabile nel fascino di un’autentica
-                dimora storica.
-              </span>
-            </span>
+          <h1
+            data-split
+            data-split-delay="0.15"
+            className="max-w-[620px] text-4xl leading-[1.06] tracking-[-0.035em] text-[#3B2118] md:text-5xl lg:text-[54px]"
+          >
+            Vivi un evento indimenticabile nel fascino di un’autentica dimora
+            storica.
           </h1>
 
           <p

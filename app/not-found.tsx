@@ -23,7 +23,7 @@ export default function NotFound() {
             Errore 404
           </p>
           <Ornament className="mt-5" />
-          <h1 className="mt-6 text-4xl leading-[1.06] tracking-[-0.035em] text-[#3B2118] md:text-5xl lg:text-[56px]">
+          <h1 data-split data-split-delay="0.1" className="mt-6 text-4xl leading-[1.06] tracking-[-0.035em] text-[#3B2118] md:text-5xl lg:text-[56px]">
             Questa stanza della villa non esiste.
           </h1>
           <p className="mt-7 max-w-lg text-base leading-7 text-[#6D625B] md:text-lg md:leading-8">

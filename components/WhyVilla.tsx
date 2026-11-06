@@ -17,7 +17,7 @@ export default function WhyVilla() {
             <span className="h-px w-10 bg-[#CDB9A7]" />
           </div>
 
-          <h2 data-reveal="up" data-delay="1" className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[54px]">
+          <h2 data-split className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.08] tracking-[-0.025em] text-[#3B2118] md:text-5xl lg:text-[54px]">
             Il tuo evento merita un luogo che si faccia ricordare.
           </h2>
 

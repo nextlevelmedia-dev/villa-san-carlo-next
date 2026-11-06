@@ -74,13 +74,13 @@ export default function ContattiPage() {
               Contatti · Informazioni · Visite
             </p>
 
-            <h1 className="mt-5 text-[38px] leading-[1.06] tracking-[-0.035em] text-[#3B2118] sm:text-5xl lg:text-[56px]">
-              <span className="line-mask" {...delay(0)}>
-                <span>Raccontaci</span>
-              </span>
-              <span className="line-mask" {...delay(1)}>
-                <span>cosa hai in mente.</span>
-              </span>
+            <h1
+              data-split
+              data-split-delay="0.15"
+              className="mt-5 text-[38px] leading-[1.06] tracking-[-0.035em] text-[#3B2118] sm:text-5xl lg:text-[56px]"
+            >
+              <span className="block">Raccontaci</span>
+              <span className="block">cosa hai in mente.</span>
             </h1>
 
             <div
@@ -168,7 +168,7 @@ export default function ContattiPage() {
             <div {...reveal(1, "fade")}>
               <Ornament className="mt-5" />
             </div>
-            <h2 {...reveal(1)} className="mt-6 text-[32px] leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl">
+            <h2 data-split className="mt-6 text-[32px] leading-[1.08] tracking-[-0.025em] text-[#3B2118] sm:text-4xl md:text-5xl">
               Nel territorio cremonese.
             </h2>
 

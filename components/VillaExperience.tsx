@@ -30,7 +30,7 @@ export default function VillaExperience() {
             <span className="h-px w-8 bg-white/55" />
           </div>
 
-          <h2 data-reveal="up" data-delay="1" className="mt-6 max-w-lg text-4xl leading-[1.08] tracking-[-0.025em] md:text-5xl lg:text-[54px]">
+          <h2 data-split className="mt-6 max-w-lg text-4xl leading-[1.08] tracking-[-0.025em] md:text-5xl lg:text-[54px]">
             Atmosfere senza tempo, emozioni che restano.
           </h2>
 

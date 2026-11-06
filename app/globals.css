@@ -4,7 +4,6 @@
   --background: #f8f5f0;
   --foreground: #3b2118;
   --ease-soft: cubic-bezier(0.22, 0.61, 0.24, 1);
-  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
   --header-h: 80px;
 }
 
@@ -63,21 +62,9 @@ html.js [data-reveal="image"] img {
   transition: transform 1.4s var(--ease-soft);
 }
 
-/* Titoli di sezione: stesso linguaggio del titolo hero */
-html.js :is(h1, h2)[data-reveal]:not([data-reveal="image"]) {
-  filter: blur(10px);
-  transform: translate3d(0, 0.25em, 0);
-  transition:
-    opacity 1.5s var(--ease-silk),
-    filter 1.5s var(--ease-silk),
-    transform 1.6s var(--ease-silk);
-  transition-delay: calc(var(--d, 0) * 120ms);
-}
-
 html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
-  filter: none;
 }
 
 html.js [data-reveal="image"].is-in {
@@ -89,41 +76,23 @@ html.js [data-reveal="image"].is-in img {
 }
 
 /* =========================================================
-   HERO — reveal per riga del titolo principale (solo CSS)
+   TITOLI — split per parole (components/ui/SplitTitles.tsx)
+   Nascosti solo con JS attivo finché lo split non è pronto.
 ========================================================= */
 
-.line-mask {
-  display: block;
-  padding-bottom: 0.04em;
+html.js [data-split] {
+  visibility: hidden;
 }
 
-.line-mask > span {
-  display: block;
-  animation: title-in 1.6s var(--ease-silk) both;
-  animation-delay: calc(var(--d, 0) * 170ms + 120ms);
-  will-change: opacity, filter, transform;
+/* Maschera della parola: margine per discendenti e accenti */
+.split-word-mask {
+  padding: 0.08em 0 0.12em;
+  margin: -0.08em 0 -0.12em;
 }
 
 .hero-rise {
   animation: rise 0.8s var(--ease-soft) both;
   animation-delay: calc(var(--d, 0) * 90ms + 160ms);
-}
-
-/* Titoli: dissolvenza con sfocatura che si scioglie e risalita minima */
-@keyframes title-in {
-  from {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translate3d(0, 0.28em, 0);
-  }
-  45% {
-    opacity: 1;
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: none;
-  }
 }
 
 @keyframes rise {
@@ -186,7 +155,7 @@ html.intro [data-intro-nav] > * {
 ========================================================= */
 
 .cookie-banner {
-  animation: banner-in 0.9s var(--ease-silk) both;
+  animation: banner-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .cookie-banner.is-leaving {
@@ -226,11 +195,9 @@ html.intro [data-intro-nav] > * {
     opacity: 1;
     transform: none;
     clip-path: none;
-    filter: none;
     transition: none;
   }
 
-  .line-mask > span,
   .hero-rise,
   .cookie-banner,
   .cookie-banner.is-leaving,

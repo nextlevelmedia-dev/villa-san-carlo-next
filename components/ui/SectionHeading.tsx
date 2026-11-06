@@ -37,7 +37,7 @@ export default function SectionHeading({
 
       <h2
         id={id}
-        {...reveal(1)}
+        data-split
         className={`mt-6 text-[32px] leading-[1.08] tracking-[-0.025em] sm:text-4xl md:text-5xl lg:text-[52px] ${centered ? "mx-auto max-w-3xl" : ""} ${light ? "text-white" : "text-[#3B2118]"}`}
       >
         {title}
