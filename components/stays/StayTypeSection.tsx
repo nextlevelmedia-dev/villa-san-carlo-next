@@ -14,6 +14,7 @@ export default function StayTypeSection({
   id,
   count,
   countLabel,
+  countNote,
   eyebrow,
   title,
   children,
@@ -27,6 +28,8 @@ export default function StayTypeSection({
   id: string;
   count: number;
   countLabel: string;
+  /** Riga secondaria sotto l'etichetta, es. "+ 1 camera accessibile" */
+  countNote?: string;
   eyebrow: string;
   title: string;
   children: ReactNode;
@@ -59,12 +62,20 @@ export default function StayTypeSection({
             <PhotoPlaceholder label={placeholderLabel} className="h-full w-full" />
           )}
 
-          <div className="absolute bottom-5 left-5 flex items-baseline gap-3 bg-[#F8F5F0] px-5 py-4 md:bottom-7 md:left-7 md:px-6 md:py-5">
-            <span className="text-4xl leading-none tracking-[-0.03em] text-[#3B2118]">
+          <div className="absolute bottom-5 left-5 flex max-w-[calc(100%-2.5rem)] items-center gap-4 bg-[#F8F5F0]/95 px-5 py-4 backdrop-blur-sm md:bottom-7 md:left-7 md:gap-5 md:px-6 md:py-5">
+            <span className="text-[44px] leading-none tracking-[-0.03em] text-[#3B2118] md:text-5xl">
               {count}
             </span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#7A5F49]">
-              {countLabel}
+            <span className="h-10 w-px shrink-0 bg-[#C8AD92]" aria-hidden="true" />
+            <span className="flex flex-col gap-1.5">
+              <span className="text-[10px] font-medium uppercase leading-4 tracking-[0.2em] text-[#7A5F49]">
+                {countLabel}
+              </span>
+              {countNote && (
+                <span className="text-[13px] leading-5 text-[#6D625B]">
+                  {countNote}
+                </span>
+              )}
             </span>
           </div>
         </div>

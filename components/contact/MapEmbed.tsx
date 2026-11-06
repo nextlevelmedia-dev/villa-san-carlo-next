@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { CONSENT_EVENT, readConsent } from "@/lib/consent";
 
 /**
- * Mappa caricata solo su richiesta dell'utente: nessuno script o cookie
- * di terze parti viene caricato finché non si preme il pulsante.
+ * Mappa caricata solo con il consenso dell'utente (banner «Accetta tutti»)
+ * o su sua richiesta esplicita: prima nessuno script o cookie di terze parti.
  */
+function subscribe(callback: () => void) {
+  window.addEventListener(CONSENT_EVENT, callback);
+  return () => window.removeEventListener(CONSENT_EVENT, callback);
+}
+
 export default function MapEmbed({ query, label }: { query: string; label: string }) {
-  const [visible, setVisible] = useState(false);
+  const [requested, setRequested] = useState(false);
+  // Con il consenso «Accetta tutti» la mappa si carica direttamente
+  const consent = useSyncExternalStore(subscribe, readConsent, () => null);
+  const visible = requested || consent === "all";
 
   if (visible) {
     return (
@@ -29,7 +38,7 @@ export default function MapEmbed({ query, label }: { query: string; label: strin
       </p>
       <button
         type="button"
-        onClick={() => setVisible(true)}
+        onClick={() => setRequested(true)}
         className="inline-flex min-h-12 items-center justify-center border border-[#4A281B] px-6 text-[11px] font-medium uppercase tracking-[0.16em] text-[#4A281B] transition-colors hover:bg-[#4A281B] hover:text-white"
       >
         Mostra la mappa

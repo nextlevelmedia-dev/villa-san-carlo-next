@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
   const { email } = site.contact;
 
   return (
-    <LegalPage title="Privacy Policy" path="/privacy-policy" updated="ottobre 2026">
+    <LegalPage title="Privacy Policy" path="/privacy-policy" updated="novembre 2026">
       <p>
         Questa informativa descrive come vengono trattati i dati personali
         degli utenti che visitano il sito di {site.name} e che utilizzano il
@@ -74,12 +74,22 @@ export default function PrivacyPolicyPage() {
       </p>
       <p>I dati non vengono utilizzati per finalità di marketing né ceduti a terzi.</p>
 
+      <h2>Natura del conferimento</h2>
+      <p>
+        Il conferimento dei dati tramite il modulo di contatto è facoltativo,
+        ma i campi contrassegnati come obbligatori sono necessari per poter
+        rispondere alla tua richiesta. Non viene effettuato alcun processo
+        decisionale automatizzato né attività di profilazione.
+      </p>
+
       <h2>Modalità e conservazione</h2>
       <p>
         I dati sono trattati con strumenti elettronici e misure di sicurezza
         adeguate, e conservati per il tempo necessario a gestire la richiesta
-        e l&apos;eventuale rapporto che ne deriva, nel rispetto degli obblighi
-        di legge.
+        e l&apos;eventuale rapporto che ne deriva e, in ogni caso, non oltre
+        24 mesi dall&apos;ultimo contatto se non segue alcun rapporto, salvo
+        gli obblighi di conservazione previsti dalla legge (ad esempio
+        fiscali, in caso di prenotazione).
       </p>
 
       <h2>Destinatari</h2>
@@ -98,14 +108,18 @@ export default function PrivacyPolicyPage() {
         Puoi chiedere in qualsiasi momento l&apos;accesso ai tuoi dati, la
         rettifica, la cancellazione, la limitazione del trattamento, la
         portabilità e opporti al trattamento (artt. 15-22 GDPR). Hai inoltre
-        il diritto di proporre reclamo al Garante per la protezione dei dati
+        il diritto di revocare in qualsiasi momento il consenso eventualmente
+        prestato, senza pregiudicare la liceità del trattamento precedente, e
+        di proporre reclamo al Garante per la protezione dei dati
         personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer">www.garanteprivacy.it</a>).
       </p>
 
       <h2>Cookie</h2>
       <p>
-        Per le informazioni sull&apos;uso di cookie e tecnologie simili consulta
-        la <Link href="/cookie-policy">Cookie Policy</Link>.
+        Il sito utilizza solo strumenti tecnici e, previo tuo consenso
+        espresso tramite il banner, contenuti di terze parti come Google
+        Maps. Per i dettagli e per modificare le tue preferenze consulta la{" "}
+        <Link href="/cookie-policy">Cookie Policy</Link>.
       </p>
     </LegalPage>
   );

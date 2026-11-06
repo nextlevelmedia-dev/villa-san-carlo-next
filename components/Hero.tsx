@@ -162,8 +162,8 @@ export default function Hero() {
             className="group relative min-h-[250px] overflow-hidden"
           >
             <Image
-              src="/images/soggiorno.jpg"
-              alt="Soggiornare a Villa San Carlo"
+              src="/images/camera-3-v2.webp"
+              alt="Camera della villa con letto in ferro battuto e soffitto con travi in legno"
               fill
               sizes="(max-width: 1024px) 100vw, 27vw"
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"

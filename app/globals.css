@@ -4,6 +4,7 @@
   --background: #f8f5f0;
   --foreground: #3b2118;
   --ease-soft: cubic-bezier(0.22, 0.61, 0.24, 1);
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
   --header-h: 80px;
 }
 
@@ -62,9 +63,21 @@ html.js [data-reveal="image"] img {
   transition: transform 1.4s var(--ease-soft);
 }
 
+/* Titoli di sezione: stesso linguaggio del titolo hero */
+html.js :is(h1, h2)[data-reveal]:not([data-reveal="image"]) {
+  filter: blur(10px);
+  transform: translate3d(0, 0.25em, 0);
+  transition:
+    opacity 1.5s var(--ease-silk),
+    filter 1.5s var(--ease-silk),
+    transform 1.6s var(--ease-silk);
+  transition-delay: calc(var(--d, 0) * 120ms);
+}
+
 html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 html.js [data-reveal="image"].is-in {
@@ -81,15 +94,14 @@ html.js [data-reveal="image"].is-in img {
 
 .line-mask {
   display: block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+  padding-bottom: 0.04em;
 }
 
 .line-mask > span {
   display: block;
-  animation: line-up 0.9s var(--ease-soft) both;
-  animation-delay: calc(var(--d, 0) * 110ms + 80ms);
+  animation: title-in 1.6s var(--ease-silk) both;
+  animation-delay: calc(var(--d, 0) * 170ms + 120ms);
+  will-change: opacity, filter, transform;
 }
 
 .hero-rise {
@@ -97,11 +109,19 @@ html.js [data-reveal="image"].is-in img {
   animation-delay: calc(var(--d, 0) * 90ms + 160ms);
 }
 
-@keyframes line-up {
+/* Titoli: dissolvenza con sfocatura che si scioglie e risalita minima */
+@keyframes title-in {
   from {
-    transform: translate3d(0, 105%, 0);
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(0, 0.28em, 0);
+  }
+  45% {
+    opacity: 1;
   }
   to {
+    opacity: 1;
+    filter: blur(0);
     transform: none;
   }
 }
@@ -162,6 +182,36 @@ html.intro [data-intro-nav] > * {
 }
 
 /* =========================================================
+   BANNER COOKIE
+========================================================= */
+
+.cookie-banner {
+  animation: banner-in 0.9s var(--ease-silk) both;
+}
+
+.cookie-banner.is-leaving {
+  animation: banner-out 0.45s var(--ease-soft) both;
+}
+
+@keyframes banner-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes banner-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+}
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
@@ -176,11 +226,14 @@ html.intro [data-intro-nav] > * {
     opacity: 1;
     transform: none;
     clip-path: none;
+    filter: none;
     transition: none;
   }
 
   .line-mask > span,
   .hero-rise,
+  .cookie-banner,
+  .cookie-banner.is-leaving,
   html.intro [data-intro-logo],
   html.intro [data-intro-line],
   html.intro [data-intro-nav] > * {

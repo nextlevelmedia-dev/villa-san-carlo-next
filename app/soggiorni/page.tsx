@@ -172,7 +172,8 @@ export default function SoggiorniPage() {
           tone="white"
           reverse
           count={rooms.filter((room) => !room.accessible).length}
-          countLabel="Camere nella villa principale + 1 accessibile"
+          countLabel="Camere nella villa principale"
+          countNote="+ 1 camera accessibile"
           eyebrow="Le camere"
           title="Dormire nel cuore della villa."
           photo={photos.camera4}

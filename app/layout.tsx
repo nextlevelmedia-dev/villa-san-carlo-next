@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/consent/CookieBanner";
 import JsonLd from "@/components/ui/JsonLd";
 import RevealObserver from "@/components/ui/RevealObserver";
 import { headScript } from "@/lib/reveal";
@@ -52,6 +53,7 @@ export default function RootLayout({
         {/* FOOTER GLOBALE */}
         <Footer />
 
+        <CookieBanner />
         <RevealObserver />
         <JsonLd data={[villaJsonLd(), websiteJsonLd()]} />
       </body>

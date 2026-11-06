@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CookiePreferencesButton from "@/components/consent/CookiePreferencesButton";
 import {
   formatAddress,
   mapsUrl,
@@ -284,6 +285,17 @@ export default function Footer() {
             riservati.
           </p>
           {legalLine.length > 0 && <p>{legalLine.join(" · ")}</p>}
+          <p>
+            Sito realizzato da{" "}
+            <a
+              href="https://convernext.com/"
+              target="_blank"
+              rel="noopener"
+              className="text-[#4A281B]/80 underline decoration-[#C8AD92] underline-offset-4 transition-colors duration-300 hover:text-[#4A281B]"
+            >
+              Convernext
+            </a>
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-x-6 gap-y-2">
@@ -300,6 +312,8 @@ export default function Footer() {
           >
             Cookie Policy
           </Link>
+
+          <CookiePreferencesButton className="py-1 text-[10px] uppercase tracking-[0.12em] text-[#6F625A] transition-colors duration-300 hover:text-[#4A281B]" />
         </div>
       </div>
     </footer>
